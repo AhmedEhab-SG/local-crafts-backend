@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ProductsController } from './products.controller';
 import { ProductsService } from './products.service';
-import { productModel } from 'src/mongo/models/products.model';
+import { ProductModule } from 'src/mongo/models/products.module';
 
 @Module({
-  imports: [productModel],
+  imports: [ProductModule],
   controllers: [ProductsController],
   providers: [ProductsService],
 })
