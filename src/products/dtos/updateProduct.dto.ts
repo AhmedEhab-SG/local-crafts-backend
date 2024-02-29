@@ -1,15 +1,5 @@
-import {
-  ArrayMinSize,
-  IsArray,
-  IsBoolean,
-  IsNumber,
-  IsObject,
-  IsOptional,
-  IsString,
-  Max,
-  Min,
-} from 'class-validator';
-import { CreateProductDto } from './createProdcut.dto';
+import { IsBoolean, IsNumber, IsOptional, Max, Min } from 'class-validator';
+import { CreateProductDto } from './createProduct.dto';
 import { PartialType } from '@nestjs/mapped-types';
 
 export class UpdateProductDto extends PartialType(CreateProductDto) {
