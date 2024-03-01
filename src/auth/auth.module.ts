@@ -1,3 +1,4 @@
+import { JwtService } from '@nestjs/jwt';
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
@@ -8,6 +9,6 @@ import { GovModel } from 'src/mongo/models/gov.model';
 @Module({
   imports: [UserModel, CityModel, GovModel],
   controllers: [AuthController],
-  providers: [AuthService]
+  providers: [AuthService, JwtService]
 })
 export class AuthModule { }
