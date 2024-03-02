@@ -7,7 +7,8 @@ export type GovDocument = HydratedDocument<Governorate>;
 export class Governorate {
   @Prop({
     unique: true,
-    required: true
+    required: true,
+    type: String
   })
   name: string;
 }
