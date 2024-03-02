@@ -27,6 +27,7 @@ export class ProductsService {
   }
 
   async create(product: CreateProductDto): Promise<Product> {
+    // add vendor from guard
     const newProduct = await this.productsModule.create(product);
 
     return newProduct;

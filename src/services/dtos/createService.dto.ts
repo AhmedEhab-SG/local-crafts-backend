@@ -1,5 +1,3 @@
-import { CategoryNestedDto } from './../../shared/dtos/category.nested.dto';
-import { VendorNestedDto } from './../../shared/dtos/vendo.nested.dto';
 import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
@@ -11,8 +9,10 @@ import {
   Min,
   ValidateNested,
 } from 'class-validator';
+import { CategoryNestedDto } from 'src/shared/dtos/category.nested.dto';
+import { VendorNestedDto } from 'src/shared/dtos/vendo.nested.dto';
 
-export class CreateProductDto {
+export class CreateServiceDto {
   @IsString()
   @IsNotEmpty()
   readonly name: string;

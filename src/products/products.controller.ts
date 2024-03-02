@@ -29,7 +29,6 @@ export class ProductsController {
 
   @Post()
   async createProduct(@Body() product: CreateProductDto): Promise<Product> {
-    console.log(product);
     return await this.productsService.create(product);
   }
 
