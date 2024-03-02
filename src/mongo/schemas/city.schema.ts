@@ -7,12 +7,14 @@ type CityDocument = HydratedDocument<City>;
 @Schema()
 class City {
   @Prop({
-    required: true
+    required: true,
+    type: String,
   })
   name: string;
 
   @Prop({
     required: true,
+    nullable: false,
     ref: 'Governorate',
     type: 'String'
   })
