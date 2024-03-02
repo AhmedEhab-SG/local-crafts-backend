@@ -16,10 +16,10 @@ export class Product {
   photos: string[];
 
   @Prop({ type: Object, required: true })
-  category: { main: string; sub: string; _id: string };
+  category: { _id: string; main: string; sub: string };
 
   @Prop({ type: Object, required: true })
-  vendor: { main: string; _id: string; address: string };
+  vendor: { _id: string; main: string; gov: string; city: string };
 
   @Prop({ default: 0 })
   totalOrders: number;
