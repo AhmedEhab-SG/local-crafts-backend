@@ -2,14 +2,14 @@ import { IsOptional, IsMongoId, IsString } from 'class-validator';
 
 export class AddressDto {
   @IsString()
-  gov: string
+  gov: string;
 
   @IsString()
-  city: string
+  city: string;
 
   @IsMongoId()
-  cityId: string
+  cityId: string;
 
   @IsOptional()
-  street: string
+  street: string;
 }

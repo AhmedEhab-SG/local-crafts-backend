@@ -1,3 +1,6 @@
+import { CategoryNestedDto } from './../../shared/dtos/category.nested.dto';
+import { VendorNestedDto } from './../../shared/dtos/vendo.nested.dto';
+import { Type } from 'class-transformer';
 import {
   ArrayMinSize,
   IsArray,
@@ -6,6 +9,7 @@ import {
   IsObject,
   IsString,
   Min,
+  ValidateNested,
 } from 'class-validator';
 
 export class CreateProductDto {
@@ -29,9 +33,13 @@ export class CreateProductDto {
 
   @IsObject()
   @IsNotEmpty()
-  readonly category: { main: string; sub: string; _id: string };
+  @ValidateNested()
+  @Type(() => CategoryNestedDto)
+  readonly category: CategoryNestedDto;
 
   @IsObject()
   @IsNotEmpty()
-  readonly vendor: { main: string; _id: string; address: string };
+  @ValidateNested()
+  @Type(() => VendorNestedDto)
+  readonly vendor: VendorNestedDto;
 }

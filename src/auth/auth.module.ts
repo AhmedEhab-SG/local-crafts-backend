@@ -9,6 +9,6 @@ import { GovModel } from 'src/mongo/models/gov.model';
 @Module({
   imports: [UserModel, CityModel, GovModel],
   controllers: [AuthController],
-  providers: [AuthService, JwtService]
+  providers: [AuthService, JwtService],
 })
-export class AuthModule { }
+export class AuthModule {}
