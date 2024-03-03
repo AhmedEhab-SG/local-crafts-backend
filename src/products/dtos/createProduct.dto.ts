@@ -1,5 +1,5 @@
 import { CategoryNestedDto } from './../../shared/dtos/category.nested.dto';
-import { VendorNestedDto } from './../../shared/dtos/vendo.nested.dto';
+import { VendorNestedDto } from '../../shared/dtos/vendor.nested.dto';
 import { Type } from 'class-transformer';
 import {
   ArrayMinSize,

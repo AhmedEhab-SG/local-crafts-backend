@@ -18,6 +18,15 @@ export class ProductsService {
 
     return allProducts;
   }
+
+  async findByUserId(_id: string): Promise<Product[]> {
+    const products = await this.productsModel.find({ vendor: _id }).exec();
+
+    if (!products) throw new NotFoundException('No products found by this id');
+
+    return products;
+  }
+
   async findById(_id: string): Promise<Product> {
     const product = await this.productsModel.findOne({ _id }).exec();
 

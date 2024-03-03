@@ -18,6 +18,15 @@ export class ServicesService {
 
     return allServices;
   }
+
+  async findByUserId(_id: string): Promise<Service[]> {
+    const products = await this.servicesModel.find({ vendor: _id }).exec();
+
+    if (!products) throw new NotFoundException('No products found by this id');
+
+    return products;
+  }
+
   async findById(_id: string): Promise<Service> {
     const Service = await this.servicesModel.findOne({ _id }).exec();
 
