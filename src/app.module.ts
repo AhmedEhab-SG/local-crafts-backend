@@ -11,7 +11,8 @@ import 'dotenv/config';
   imports: [
     MongoModule,
     ProductsModule,
-    AuthModule, LocationsModule,
+    AuthModule,
+    LocationsModule,
     ServicesModule,
     UsersModule,
   ],
