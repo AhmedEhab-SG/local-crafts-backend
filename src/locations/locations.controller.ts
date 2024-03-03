@@ -40,7 +40,7 @@ export class LocationsController {
         statusCode: 400,
         message: msg,
         inserted: error.insertedDocs,
-        failed: error.writeErrors?.map(e => e.err.op),
+        failed: error.writeErrors?.map(e => e.err.op.name),
       });
     }
   }
@@ -79,7 +79,7 @@ export class LocationsController {
         statusCode: 400,
         message: msg,
         inserted: error.insertedDocs,
-        failed: error.writeErrors?.map(e => e.err.op),
+        failed: error.writeErrors?.map(e => e.err.op.name),
       });
     }
   }
