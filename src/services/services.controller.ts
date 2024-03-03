@@ -10,8 +10,8 @@ import {
 import { ServicesService } from './services.service';
 import { Service } from 'src/mongo/schemas/services.schema';
 import { UpdateServiceDto } from './dtos/updateService.dto';
-import { ObjectId } from 'mongoose';
 import { CreateServiceDto } from './dtos/createService.dto';
+import { ParseObjectIdPipe } from 'src/shared/pipes/parseObjectId.pipe';
 
 @Controller('services')
 export class ServicesController {
@@ -23,7 +23,9 @@ export class ServicesController {
   }
 
   @Get(':_id')
-  async getproductById(@Param('_id') _id: ObjectId): Promise<Service> {
+  async getproductById(
+    @Param('_id', ParseObjectIdPipe) _id: string,
+  ): Promise<Service> {
     return await this.servicesService.findById(_id);
   }
 
@@ -35,14 +37,16 @@ export class ServicesController {
 
   @Patch(':_id')
   async updateProduct(
-    @Param('_id') _id: ObjectId,
+    @Param('_id', ParseObjectIdPipe) _id: string,
     @Body() Service: UpdateServiceDto,
   ): Promise<Service> {
     return await this.servicesService.update(_id, Service);
   }
 
   @Delete(':_id')
-  async deleteProduct(@Param('_id') _id: ObjectId): Promise<Service> {
+  async deleteProduct(
+    @Param('_id', ParseObjectIdPipe) _id: string,
+  ): Promise<Service> {
     return await this.servicesService.delete(_id);
   }
 }
