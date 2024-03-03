@@ -6,12 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product } from 'src/mongo/schemas/products.schema';
 import { CreateProductDto } from './dtos/createProduct.dto';
-import { ObjectId } from 'mongoose';
 import { UpdateProductDto } from './dtos/updateProduct.dto';
+import { ParseObjectIdPipe } from 'src/shared/pipes/parseObjectId.pipe';
 
 @Controller('products')
 export class ProductsController {
@@ -23,7 +24,9 @@ export class ProductsController {
   }
 
   @Get(':_id')
-  async getproductById(@Param('_id') _id: ObjectId): Promise<Product> {
+  async getproductById(
+    @Param('_id', ParseObjectIdPipe) _id: string,
+  ): Promise<Product> {
     return await this.productsService.findById(_id);
   }
 
@@ -34,14 +37,16 @@ export class ProductsController {
 
   @Patch(':_id')
   async updateProduct(
-    @Param('_id') _id: ObjectId,
+    @Param('_id', ParseObjectIdPipe) _id: string,
     @Body() product: UpdateProductDto,
   ): Promise<Product> {
     return await this.productsService.update(_id, product);
   }
 
   @Delete(':_id')
-  async deleteProduct(@Param('_id') _id: ObjectId): Promise<Product> {
+  async deleteProduct(
+    @Param('_id', ParseObjectIdPipe) _id: string,
+  ): Promise<Product> {
     return await this.productsService.delete(_id);
   }
 }
