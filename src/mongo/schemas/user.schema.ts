@@ -6,6 +6,13 @@ export type UserDocument = HydratedDocument<User>;
 @Schema()
 export class User {
   @Prop({
+    required: true,
+    minlength: 2,
+    maxlength: 64
+  })
+  name: string;
+
+  @Prop({
     unique: true,
     required: true
   })
@@ -16,6 +23,32 @@ export class User {
 
   @Prop()
   role: string
+
+  @Prop({
+    type: {
+      _id: false,
+      gov: {
+        ref: 'Governorate',
+        type: String,
+      },
+      city: {
+        ref: 'City',
+        type: String,
+      },
+      street: String
+    }
+  })
+  address: {
+    gov: string;
+    city: string;
+    street: string;
+  }
+
+  @Prop()
+  photo: string;
+
+  @Prop()
+  description: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

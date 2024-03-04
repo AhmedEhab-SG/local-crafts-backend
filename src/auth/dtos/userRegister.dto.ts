@@ -28,7 +28,6 @@ export class UserRegisterDto extends UserLoginDto {
   @Type(() => AddressDto)
   address: AddressDto;
 
-  @IsNotEmpty()
   @Length(3, 512)
   description: string;
 }
