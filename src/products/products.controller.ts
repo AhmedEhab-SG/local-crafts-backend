@@ -13,7 +13,7 @@ import { Product } from 'src/mongo/schemas/products.schema';
 import { CreateProductDto } from './dtos/createProduct.dto';
 import { UpdateProductDto } from './dtos/updateProduct.dto';
 import { ParseObjectIdPipe } from 'src/shared/pipes/parseObjectId.pipe';
-import { Roles } from 'src/shared/guards/roles.decorator';
+import { Roles } from 'src/shared/decorators/roles.decorator';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { RolesGuard } from 'src/shared/guards/roles.guard';
 

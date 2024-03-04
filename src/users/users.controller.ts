@@ -10,7 +10,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { RolesGuard } from 'src/shared/guards/roles.guard';
-import { Roles } from 'src/shared/guards/roles.decorator';
+import { Roles } from 'src/shared/decorators/roles.decorator';
 import { ParseObjectIdPipe } from 'src/shared/pipes/parseObjectId.pipe';
 import { User } from 'src/mongo/schemas/user.schema';
 import { UpdateUserDto } from './dtos/updateUser.dto';

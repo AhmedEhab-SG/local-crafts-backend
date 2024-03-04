@@ -15,7 +15,7 @@ import { CreateServiceDto } from './dtos/createService.dto';
 import { ParseObjectIdPipe } from 'src/shared/pipes/parseObjectId.pipe';
 import { RolesGuard } from 'src/shared/guards/roles.guard';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
-import { Roles } from 'src/shared/guards/roles.decorator';
+import { Roles } from 'src/shared/decorators/roles.decorator';
 
 @Controller('services')
 export class ServicesController {
