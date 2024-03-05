@@ -3,26 +3,37 @@ import { Date } from 'mongoose';
 
 @Schema()
 export class Order {
-  @Prop({ type: Object, required: true })
-  customer: { name: string; id: string };
+  @Prop({
+    required: true,
+    ref: 'User',
+    type: String,
+  })
+  customer: string;
 
-  @Prop({ type: Object, required: true })
-  vendor: { name: string; id: string };
+  @Prop({
+    required: true,
+    ref: 'User',
+    type: String,
+  })
+  vendor: string;
 
-  @Prop({ type: Object })
-  service: { name: string; id: string };
+  @Prop({
+    ref: 'Service',
+    type: String,
+  })
+  service: string;
 
-  @Prop({ type: Object })
-  product: { name: string; id: string };
+  @Prop({
+    ref: 'Product',
+    type: String,
+  })
+  product: string;
 
-  @Prop({ required: true })
+  @Prop()
   message: string;
 
   @Prop({ type: Date, default: Date.now, required: true })
   createdAt: Date;
-
-  @Prop({ required: true })
-  rating: number;
 }
 
-export const OrederSchema = SchemaFactory.createForClass(Order);
+export const OrderSchema = SchemaFactory.createForClass(Order);
