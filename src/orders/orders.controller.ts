@@ -3,55 +3,69 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
   Param,
-  ParseIntPipe,
-  Patch,
   Post,
-  // UsePipes,
-  // ValidationPipe,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { Order } from 'src/mongo/schemas/orders.schema';
 import { CreateOrderDto } from './dtos/createOrder.dto';
-import { UpdateOrderDto } from './dtos/updateOrder.dto';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { RolesGuard } from 'src/shared/guards/roles.guard';
+import { Roles } from 'src/shared/decorators/roles.decorator';
+import { ParseIsInPipe } from 'src/shared/pipes/parseIsIn.pipe';
+import { ParseObjectIdPipe } from 'src/shared/pipes/parseObjectId.pipe';
 
-// @UsePipes(ValidationPipe)
-@Controller('users/:userId/orders')
+const ParseValidSection = new ParseIsInPipe(['services', 'products']);
+
+@Controller('')
+@UseGuards(RolesGuard)
+@UseGuards(AuthGuard)
 export class OrdersController {
-  constructor(private readonly orderService: OrdersService) {}
-  @Get()
-  async find(): Promise<Order[]> {
-    return this.orderService.find();
+  constructor(private readonly orderService: OrdersService) { }
+
+  @Get('orders')
+  @Roles(['admin', 'customer', 'vendor'])
+  async allOrders(@Request() req: any): Promise<Order[]> {
+    if (req.role === 'admin')
+      return this.orderService.getAll();
+
+    const options = {};
+    options[req.role] = req.user_id;
+    return this.orderService.getAll(options);
   }
-  @Get(':id')
-  async findOne(
-    @Param('userId', ParseIntPipe) userId: string,
-    @Param('id') id: string,
-  ): Promise<Order> {
-    return this.orderService.findOne(userId, id);
+
+  @Get('orders/:id')
+  @Roles(['admin', 'customer', 'vendor'])
+  async findOne(@Param('id', ParseObjectIdPipe) id: string): Promise<Order> {
+    return this.orderService.getOne(id);
   }
-  @Post()
+
+  @Post('/:section/:id/order')
+  @Roles(['customer'])
   async create(
-    @Param('userId', ParseIntPipe) userId: string,
+    @Request() req: any,
+    @Param('section', ParseValidSection) s: string,
+    @Param('id', ParseObjectIdPipe) id: string,
     @Body() orderData: CreateOrderDto,
   ): Promise<Order> {
-    return this.orderService.create(userId, orderData);
+    orderData['customer'] = req.user_id;
+    orderData[s.slice(0, s.length - 1)] = id;
+    return this.orderService.create(orderData as Order);
   }
-  @Patch(':id')
-  async update(
-    @Param('userId', ParseIntPipe) userId: string,
-    @Param('id') id: string,
-    @Body() orderData: UpdateOrderDto,
-  ): Promise<Order> {
-    return this.orderService.update(userId, id, orderData);
-  }
-  @Delete(':id')
-  @HttpCode(204)
+
+  @Delete('orders/:id')
+  @Roles(['admin', 'customer', 'vendor'])
   async remove(
-    @Param('userId', ParseIntPipe) userId: string,
-    @Param('id') id: string,
-  ): Promise<Order> {
-    return this.orderService.remove(userId, id);
+    @Param('id', ParseObjectIdPipe) id: string,
+    @Request() req: any
+  ) {
+    const options = {};
+    options[req.role] = req.user_id;
+    if (req.role === 'admin')
+      delete options[req.user_role];
+
+    return this.orderService.delete(id, options);
   }
 }
