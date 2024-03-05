@@ -146,7 +146,7 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 #### GET products/:productId
 
-> get product by ID
+> get product by Id
 
 #### return:
 
@@ -189,7 +189,7 @@ RESTful API for products & services market place with [Nest](https://github.com/
 - name\*: string, min length 2, max length 50
 - prise\*: must be more than 0 and number
 - description\*: type string
-- photos\*: array of strings[] and min array length is 1
+- photos\*: array of strings[] and min array length can be 0
 - description: string, min length 20, max length 500
 - category.main: must be string main category
 - category.sub: must be string sub category
@@ -217,7 +217,217 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 #### PATCH /products/:productId
 
-> Update product by productID
+> Update product by productId
+
+##### props: (\* means required)
+
+- name: string, min length 2, max length 50
+- prise: must be more than 0 and number
+- description: type string
+- photos: array of strings[] and min array length can be 0
+- description: string, min length 20, max length 500
+- category.main: must be string main category
+- category.sub: must be string sub category
+- totalOrders: must be not less than 0
+- avgRating: must be not less than 0 and not more than 5
+- approved: is a boolen can be modified by admin
+
+#### example:
+
+```js
+{
+  "name": "test4",
+  "price": 250,
+  "description": "test test",
+  "photos": [
+    "https://i.imgur.com/1o3KcN6.png",
+    "https://i.imgur.com/1o3KcN6.png",
+    "https://i.imgur.com/1o3KcN6.png"
+  ],
+  "category": {
+    "main": "نجاره",
+    "sub": "خشب"
+  },
+  "totalOrders": 0,
+  "avgRating": 0,
+  "approved": false,
+}
+```
+
+---
+
+#### DELETE /products/:productId
+
+> Delete product by productId
+
+</details>
+
+---
+
+<details>
+ <summary><b>Services</b></summary>
+
+#### GET /services?page=1&limit=10
+
+> query and it takes page and limit default is 1 and 20 respectively
+
+#### return:
+
+```js
+{
+  "data": [
+    {
+      "id": "65e5f83085020468684cf",
+      "name": "test1",
+      "price": 250,
+      "description": "test test",
+      "photos": [
+        "https://i.imgur.com/1o3KcN6.png",
+        "https://i.imgur.com/1o3KcN6.png",
+        "https://i.imgur.com/1o3KcN6.png"
+      ],
+      "category": {
+        "main": "نجاره",
+        "sub": "خشب"
+      },
+      "vendor": {
+        "id": "65e5f706e9c9ebb9d820",
+        "name": "test",
+        "gov": "65e36f850475bb457ced9",
+        "city": "65e371f2617ef1dd3b697"
+      },
+      "totalOrders": 0,
+      "avgRating": 0,
+      "approved": false,
+      "createdAt": "2024-03-04T16:34:56.971Z"
+    },
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 10,
+    "itemCount": 7,
+    "pageCount": 1,
+    "hasPreviousPage": false,
+    "hasNextPage": false
+  }
+}
+```
+
+---
+
+#### GET services/user/:userId
+
+> get all services by userId
+
+#### return:
+
+```js
+[
+  {
+    _id: '65e5f83085020468684',
+    name: 'test7',
+    price: 250,
+    description: 'test test',
+    photos: [
+      'https://i.imgur.com/1o3KcN6.png',
+      'https://i.imgur.com/1o3KcN6.png',
+      'https://i.imgur.com/1o3KcN6.png',
+    ],
+    category: {
+      main: 'نجاره',
+      sub: 'خشب',
+    },
+    vendor: {
+      id: '65e5f706e9c9ebb9d8205',
+      name: 'test',
+      gov: '65e36f850475bb457ced9',
+      city: '65e371f2617ef1dd3b692',
+    },
+    totalOrders: 0,
+    avgRating: 0,
+    approved: false,
+    createdAt: '2024-03-04T16:34:56.971Z',
+    __v: 0,
+  },
+];
+```
+
+---
+
+#### GET services/:serviceId
+
+> get services by Id
+
+#### return:
+
+```js
+{
+  "id": "65e5f83085020468684cf",
+  "name": "test1",
+  "price": 250,
+  "description": "test test",
+  "photos": [
+    "https://i.imgur.com/1o3KcN6.png",
+    "https://i.imgur.com/1o3KcN6.png",
+    "https://i.imgur.com/1o3KcN6.png"
+  ],
+  "category": {
+    "main": "نجاره",
+    "sub": "خشب"
+  },
+  "vendor": {
+    "id": "65e5f706e9c9ebb9d820",
+    "name": "test",
+    "gov": "65e36f850475bb457ced9",
+    "city": "65e371f2617ef1dd3b697"
+  },
+  "totalOrders": 0,
+  "avgRating": 0,
+  "approved": false,
+  "createdAt": "2024-03-04T16:34:56.971Z"
+}
+```
+
+---
+
+#### POST /services
+
+> Create new service
+
+##### props: (\* means required)
+
+- name\*: string, min length 2, max length 50
+- prise\*: must be more than 0 and number
+- description\*: type string
+- photos\*: array of strings[] and min array length is 1
+- description: string, min length 20, max length 500
+- category.main: must be string main category
+- category.sub: must be string sub category
+
+#### example:
+
+```js
+{
+  "name": "test4",
+  "price": 250,
+  "description": "test test",
+  "photos": [
+    "https://i.imgur.com/1o3KcN6.png",
+    "https://i.imgur.com/1o3KcN6.png",
+    "https://i.imgur.com/1o3KcN6.png"
+  ],
+  "category": {
+    "main": "نجاره",
+    "sub": "خشب"
+  }
+}
+```
+
+---
+
+#### PATCH /services/:serviceId
+
+> Update services by servicesId
 
 ##### props: (\* means required)
 
@@ -256,9 +466,9 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 ---
 
-#### DELETE /products/:productId
+#### DELETE /services/:serviceId
 
-> Delete product by productID
+> Delete services by serviceId
 
 </details>
 
@@ -268,16 +478,21 @@ RESTful API for products & services market place with [Nest](https://github.com/
  <summary><b>Orders</b></summary>
 
 #### GET /orders
+
 > get all orders for the current logged in user
 
 #### GET /orders/:orderId
+
 > get infromations about specific order
 
 #### DELETE /orders/:orderId
+
 > customer, vendor can delete products they have done.
 
 #### POST /products/:productId/order
+
 #### POST /services/:serviceId/order
+
 > submit an order request from the current logged in user
 > user must be a customer (not even admin can do this)
 
@@ -285,9 +500,14 @@ RESTful API for products & services market place with [Nest](https://github.com/
 > Body Schema is object with message inside
 
 ```js
-{ message: "500 > length > 10" }
+{
+  message: '500 > length > 10';
+}
 ```
+
 </details>
+
+---
 
 ## Installation
 
