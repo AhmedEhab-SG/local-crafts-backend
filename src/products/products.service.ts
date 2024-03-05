@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Product } from 'src/mongo/schemas/product.schema';
+import { ProductDocument, Product } from 'src/mongo/schemas/product.schema';
 import { CreateProductDto } from './dtos/createProduct.dto';
 import { UpdateProductDto } from './dtos/updateProduct.dto';
 import { User } from 'src/mongo/schemas/user.schema';
+import { PaginatedDto } from 'src/shared/dtos/paginated.dto';
 
 @Injectable()
 export class ProductsService {
@@ -12,12 +13,30 @@ export class ProductsService {
     @InjectModel(Product.name) private productsModel: Model<Product>,
   ) {}
 
-  async find(): Promise<Product[]> {
-    const allProducts = await this.productsModel.find().exec();
+  private convert(product: ProductDocument): any {
+    const json = product.toObject({ versionKey: false });
+    const id = json._id;
+    delete json._id;
+    return { id: String(id), ...json };
+  }
 
-    if (!allProducts.length) throw new NotFoundException('No products found');
+  async find(page: number, limit: number): Promise<PaginatedDto<Product>> {
+    const products = await this.productsModel
+      .find()
+      .limit(limit)
+      .skip(limit * (page - 1))
+      .exec();
 
-    return allProducts;
+    const itemCount = await this.productsModel.countDocuments();
+
+    if (!products.length) throw new NotFoundException('No products found');
+
+    return new PaginatedDto<Product>(
+      products.map(this.convert),
+      page,
+      limit,
+      itemCount,
+    );
   }
 
   async findByUserId(_id: string): Promise<Product[]> {
