@@ -6,43 +6,79 @@ import {
   Param,
   Patch,
   Post,
+  Request,
+  UseGuards,
 } from '@nestjs/common';
 import { ServicesService } from './services.service';
-import { Service } from 'src/mongo/schemas/services.schema';
+import { Service } from 'src/mongo/schemas/service.schema';
 import { UpdateServiceDto } from './dtos/updateService.dto';
-import { ObjectId } from 'mongoose';
 import { CreateServiceDto } from './dtos/createService.dto';
+import { ParseObjectIdPipe } from 'src/shared/pipes/parseObjectId.pipe';
+import { RolesGuard } from 'src/shared/guards/roles.guard';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { Roles } from 'src/shared/decorators/roles.decorator';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('services')
 export class ServicesController {
-  constructor(private readonly servicesService: ServicesService) {}
+  constructor(
+    private readonly servicesService: ServicesService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Get()
-  async getAllProducts(): Promise<Service[]> {
+  async getAllServices(): Promise<Service[]> {
     return await this.servicesService.find();
   }
 
+  @Get('user/:_id')
+  async getAllServicesByUserId(
+    @Param('_id', ParseObjectIdPipe) _id: string,
+  ): Promise<Service[]> {
+    return await this.servicesService.findByUserId(_id);
+  }
+
   @Get(':_id')
-  async getproductById(@Param('_id') _id: ObjectId): Promise<Service> {
+  async getServiceById(
+    @Param('_id', ParseObjectIdPipe) _id: string,
+  ): Promise<Service> {
     return await this.servicesService.findById(_id);
   }
 
   @Post()
-  async createProduct(@Body() Service: CreateServiceDto): Promise<Service> {
-    console.log(Service);
-    return await this.servicesService.create(Service);
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  @Roles(['admin', 'vendor'])
+  async createService(
+    @Body() service: CreateServiceDto,
+    @Request() request: { user_id: string },
+  ): Promise<Service> {
+    const vendor = await this.usersService.findById(request.user_id);
+    return await this.servicesService.create(service, request.user_id, vendor);
   }
 
   @Patch(':_id')
-  async updateProduct(
-    @Param('_id') _id: ObjectId,
-    @Body() Service: UpdateServiceDto,
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  @Roles(['admin', 'vendor'])
+  async updateService(
+    @Param('_id', ParseObjectIdPipe) _id: string,
+    @Body() service: UpdateServiceDto,
+    @Request() request: { role: string; user_id: string },
   ): Promise<Service> {
-    return await this.servicesService.update(_id, Service);
+    if (request.role === 'admin') request.user_id = request.role;
+    return await this.servicesService.update(_id, service, request.user_id);
   }
 
   @Delete(':_id')
-  async deleteProduct(@Param('_id') _id: ObjectId): Promise<Service> {
-    return await this.servicesService.delete(_id);
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  @Roles(['admin', 'vendor'])
+  async deleteService(
+    @Param('_id', ParseObjectIdPipe) _id: string,
+    @Request() request: { role: string; user_id: string },
+  ): Promise<Service> {
+    if (request.role === 'admin') request.user_id = request.role;
+    return await this.servicesService.delete(_id, request.user_id);
   }
 }

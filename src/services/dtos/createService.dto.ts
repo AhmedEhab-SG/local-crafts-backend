@@ -10,7 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { CategoryNestedDto } from 'src/shared/dtos/category.nested.dto';
-import { VendorNestedDto } from 'src/shared/dtos/vendo.nested.dto';
+import { VendorNestedDto } from 'src/shared/dtos/vendor.nested.dto';
 
 export class CreateServiceDto {
   @IsString()
@@ -36,10 +36,4 @@ export class CreateServiceDto {
   @ValidateNested()
   @Type(() => CategoryNestedDto)
   readonly category: CategoryNestedDto;
-
-  @IsObject()
-  @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => VendorNestedDto)
-  readonly vendor: VendorNestedDto;
 }
