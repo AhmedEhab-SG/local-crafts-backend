@@ -36,9 +36,10 @@ export class ProductsService {
   }
 
   async findByUserId(_id: string): Promise<Product[]> {
-    const products = await this.productsModel.find({ vendor: _id }).exec();
+    const products = await this.productsModel.find({ 'vendor.id': _id }).exec();
 
-    if (!products) throw new NotFoundException('No products found by this id');
+    if (!products.length)
+      throw new NotFoundException('No products found by this id');
 
     return products;
   }

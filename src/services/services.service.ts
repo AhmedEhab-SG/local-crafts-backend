@@ -36,19 +36,20 @@ export class ServicesService {
   }
 
   async findByUserId(_id: string): Promise<Service[]> {
-    const products = await this.servicesModel.find({ vendor: _id }).exec();
+    const services = await this.servicesModel.find({ 'vendor.id': _id }).exec();
 
-    if (!products) throw new NotFoundException('No products found by this id');
+    if (!services.length)
+      throw new NotFoundException('No services found by this id');
 
-    return products;
+    return services;
   }
 
   async findById(_id: string): Promise<Service> {
-    const Service = await this.servicesModel.findOne({ _id }).exec();
+    const service = await this.servicesModel.findOne({ _id }).exec();
 
-    if (!Service) throw new NotFoundException('No Service found by this id');
+    if (!service) throw new NotFoundException('No Service found by this id');
 
-    return Service;
+    return service;
   }
 
   async create(

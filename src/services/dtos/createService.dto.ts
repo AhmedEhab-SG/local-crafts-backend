@@ -10,7 +10,6 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { CategoryNestedDto } from 'src/shared/dtos/category.nested.dto';
-import { VendorNestedDto } from 'src/shared/dtos/vendor.nested.dto';
 
 export class CreateServiceDto {
   @IsString()
