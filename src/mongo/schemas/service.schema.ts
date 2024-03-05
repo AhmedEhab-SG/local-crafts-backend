@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Date } from 'mongoose';
 import { Product } from './product.schema';
+import { HydratedDocument } from 'mongoose';
+
+export type ServiceDocument = HydratedDocument<Service>;
 
 @Schema()
 export class Service extends Product {

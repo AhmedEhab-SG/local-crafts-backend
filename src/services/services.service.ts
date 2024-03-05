@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Service } from 'src/mongo/schemas/service.schema';
+import { Service, ServiceDocument } from 'src/mongo/schemas/service.schema';
 import { CreateServiceDto } from './dtos/createService.dto';
 import { UpdateServiceDto } from './dtos/updateService.dto';
 import { User } from 'src/mongo/schemas/user.schema';
+import { PaginatedDto } from 'src/shared/dtos/paginated.dto';
 
 @Injectable()
 export class ServicesService {
@@ -12,12 +13,30 @@ export class ServicesService {
     @InjectModel(Service.name) private servicesModel: Model<Service>,
   ) {}
 
-  async find(): Promise<Service[]> {
-    const allServices = await this.servicesModel.find().exec();
+  private convert(service: ServiceDocument): any {
+    const json = service.toObject({ versionKey: false });
+    const id = json._id;
+    delete json._id;
+    return { id: String(id), ...json };
+  }
 
-    if (!allServices.length) throw new NotFoundException('No services found');
+  async find(page: number, limit: number): Promise<PaginatedDto<Service>> {
+    const services = await this.servicesModel
+      .find()
+      .limit(limit)
+      .skip(limit * (page - 1))
+      .exec();
 
-    return allServices;
+    const itemCount = await this.servicesModel.countDocuments();
+
+    if (!services.length) throw new NotFoundException('No services found');
+
+    return new PaginatedDto<Service>(
+      services.map(this.convert),
+      page,
+      limit,
+      itemCount,
+    );
   }
 
   async findByUserId(_id: string): Promise<Service[]> {

@@ -3,11 +3,14 @@ import { UsersService } from './../users/users.service';
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -19,6 +22,7 @@ import { ParseObjectIdPipe } from 'src/shared/pipes/parseObjectId.pipe';
 import { Roles } from 'src/shared/decorators/roles.decorator';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { RolesGuard } from 'src/shared/guards/roles.guard';
+import { PaginatedDto } from 'src/shared/dtos/paginated.dto';
 
 @Controller('products')
 export class ProductsController {
@@ -27,9 +31,12 @@ export class ProductsController {
     private readonly usersService: UsersService,
   ) {}
 
-  @Get()
-  async getAllProducts(): Promise<Product[]> {
-    return await this.productsService.find();
+  @Get('/')
+  async getProductsPaginate(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number,
+  ): Promise<PaginatedDto<Product>> {
+    return await this.productsService.find(page, limit);
   }
 
   @Get('user/:_id')

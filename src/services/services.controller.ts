@@ -1,11 +1,14 @@
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -18,6 +21,7 @@ import { RolesGuard } from 'src/shared/guards/roles.guard';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { Roles } from 'src/shared/decorators/roles.decorator';
 import { UsersService } from 'src/users/users.service';
+import { PaginatedDto } from 'src/shared/dtos/paginated.dto';
 
 @Controller('services')
 export class ServicesController {
@@ -26,9 +30,12 @@ export class ServicesController {
     private readonly usersService: UsersService,
   ) {}
 
-  @Get()
-  async getAllServices(): Promise<Service[]> {
-    return await this.servicesService.find();
+  @Get('/')
+  async getServicesPaginate(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number,
+  ): Promise<PaginatedDto<Service>> {
+    return await this.servicesService.find(page, limit);
   }
 
   @Get('user/:_id')
