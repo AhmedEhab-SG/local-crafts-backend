@@ -15,12 +15,10 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 ## API end points
 
-#### Register: /auth/register
-
 <details>
- <summary>Register Guide</summary>
+ <summary><b>Authentication</b></summary>
 
-#### POST
+#### POST /auth/register
 
 #### props: (\* means required)
 
@@ -56,14 +54,10 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 ---
 
-#### Product: /product
-
 <details>
- <summary>Product Guide</summary>
+ <summary><b>Products</b></summary>
 
-#### GET
-
-##### endpoint: ?page=1&limit=10
+#### GET /products?page=1&limit=10
 
 > query and it takes page and limit default is 1 and 20 respectively
 
@@ -111,11 +105,9 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 ---
 
-#### GET
+#### GET products/user/:userId
 
-##### endpoint: /user/65e5cd749711f593e2b42d
-
-> get all products by userID
+> get all products by userId
 
 #### return:
 
@@ -152,9 +144,7 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 ---
 
-#### GET
-
-##### endpoint: /65e5cd749711f593e2b42d
+#### GET products/:productId
 
 > get product by ID
 
@@ -190,9 +180,7 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 ---
 
-#### POST
-
-##### endpoint: /
+#### POST /products
 
 > Create new product
 
@@ -227,9 +215,7 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 ---
 
-#### Update
-
-##### endpoint: /65e5f83085020468684c
+#### PATCH /products/:productId
 
 > Update product by productID
 
@@ -270,15 +256,38 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 ---
 
-#### Delete
-
-##### endpoint: /65e5f83085020468684c
+#### DELETE /products/:productId
 
 > Delete product by productID
 
 </details>
 
 ---
+
+<details>
+ <summary><b>Orders</b></summary>
+
+#### GET /orders
+> get all orders for the current logged in user
+
+#### GET /orders/:orderId
+> get infromations about specific order
+
+#### DELETE /orders/:orderId
+> customer, vendor can delete products they have done.
+
+#### POST /products/:productId/order
+#### POST /services/:serviceId/order
+> submit an order request from the current logged in user
+> user must be a customer (not even admin can do this)
+
+> [!CAUTION]
+> Body Schema is object with message inside
+
+```js
+{ message: "500 > length > 10" }
+```
+</details>
 
 ## Installation
 
