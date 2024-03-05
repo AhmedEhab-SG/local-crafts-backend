@@ -1,54 +1,52 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-
 import { InjectModel } from '@nestjs/mongoose';
-
-import { Model } from 'mongoose';
+import { Model, model } from 'mongoose';
 import { Order } from 'src/mongo/schemas/orders.schema';
 import { CreateOrderDto } from './dtos/createOrder.dto';
 import { UpdateOrderDto } from './dtos/updateOrder.dto';
+import { Service } from 'src/mongo/schemas/service.schema';
+import { Product } from 'src/mongo/schemas/product.schema';
 
 @Injectable()
 export class OrdersService {
-  constructor(@InjectModel(Order.name) private orderModel: Model<Order>) {}
+  constructor(
+    @InjectModel(Service.name) private serviceModel: Model<Service>,
+    @InjectModel(Product.name) private productModel: Model<Product>,
+    @InjectModel(Order.name) private orderModel: Model<Order>
+  ) { }
 
-  async find(): Promise<Order[]> {
-    return await this.orderModel.find();
+  async getAll(options = {}): Promise<Order[]> {
+    return await this.orderModel.find(options);
   }
-  async findOne(userId: string, id: string): Promise<Order> {
+
+  async getOne(id: string): Promise<Order> {
     const order = await this.orderModel.findById(id);
     if (!order) {
-      throw new NotFoundException('not found order ');
+      throw new NotFoundException();
     } else {
       return order;
     }
   }
-  async create(userId: string, orderData: CreateOrderDto): Promise<Order> {
-    const newOrder = this.orderModel.create({
-      createdBy: userId,
-      ...orderData,
-    });
-    return newOrder;
+
+  async create(orderData: Order): Promise<Order> {
+    // check that the data is there in the db
+    const model = orderData.service ? this.serviceModel : this.productModel;
+    const target = await model.findById(orderData.service || orderData.product);
+    if (!target?.vendor?.id ) throw new NotFoundException();
+    orderData.vendor = target.vendor.id;
+    return await this.orderModel.create(orderData);
   }
-  async update(
-    userId: string,
-    id: string,
-    orderData: UpdateOrderDto,
-  ): Promise<Order> {
-    const updatedOrder = this.orderModel.findOneAndUpdate(
-      { _id: id },
-      orderData,
-    );
-    if (!updatedOrder) {
+
+  async delete(_id: string, options = {}) {
+    return await this.orderModel.deleteOne({ _id, ...options });
+  }
+
+  async update(_id: string, orderData: UpdateOrderDto): Promise<Order> {
+    const order = await this.orderModel.findOneAndUpdate({ _id }, orderData);
+    if (!order) {
       throw new NotFoundException('not found order');
     } else {
-      return updatedOrder;
+      return order;
     }
-  }
-  async remove(userId: string, id: string): Promise<Order> {
-    const deletedOrder = this.orderModel.findByIdAndDelete(id);
-    if (!deletedOrder) {
-      throw new NotFoundException('order not found');
-    }
-    return deletedOrder;
   }
 }
