@@ -8,6 +8,7 @@ import { UserRegisterDto } from './dtos/userRegister.dto';
 import * as bcrypt from 'bcrypt';
 import { UserLoginDto } from './dtos/userLogin.dto';
 import { JwtService } from '@nestjs/jwt';
+import { VendorRegisterDto } from './dtos/vendorRegister.dto';
 
 @Injectable()
 export class AuthService {
@@ -44,5 +45,9 @@ export class AuthService {
       console.log(err);
       throw new ForbiddenException('User already exists!');
     }
+  }
+
+  async registerVendor(user: VendorRegisterDto) {
+    return await this.userModel.findByIdAndUpdate(user.id, user);
   }
 }

@@ -1,35 +1,29 @@
 import {
-  IsIn,
-  IsNotEmpty,
   Length,
   IsObject,
   IsOptional,
   ValidateNested,
   IsNotEmptyObject,
+  IsMongoId,
+  IsUrl,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { UserLoginDto } from './userLogin.dto';
 import { AddressDto } from './address.dto';
 
-export class UserRegisterDto extends UserLoginDto {
-  @IsIn(['customer', 'vendor'])
-  role: string;
-
-  @Length(2, 64)
-  @IsNotEmpty()
-  name: string;
+export class VendorRegisterDto {
+  @IsMongoId()
+  id: string;
 
   @IsOptional()
+  @IsUrl()
   photo: string;
 
   @IsObject()
-  @IsOptional()
   @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => AddressDto)
   address: AddressDto;
 
   @Length(3, 512)
-  @IsOptional()
   description: string;
 }
