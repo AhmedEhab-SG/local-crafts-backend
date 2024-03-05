@@ -20,6 +20,7 @@ export class UserRegisterDto extends UserLoginDto {
   @IsNotEmpty()
   name: string;
 
+  /*
   @IsOptional()
   photo: string;
 
@@ -31,4 +32,5 @@ export class UserRegisterDto extends UserLoginDto {
 
   @Length(3, 512)
   description: string;
+  */
 }

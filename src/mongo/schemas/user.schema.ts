@@ -23,7 +23,7 @@ export class User {
 
   @Prop()
   role: string
-
+/*
   @Prop({
     type: {
       _id: false,
@@ -49,6 +49,7 @@ export class User {
 
   @Prop()
   description: string;
+  */
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
