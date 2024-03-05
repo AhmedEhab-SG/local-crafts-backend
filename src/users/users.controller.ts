@@ -7,6 +7,7 @@ import {
   Get,
   Param,
   Patch,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { RolesGuard } from 'src/shared/guards/roles.guard';
@@ -40,8 +41,9 @@ export class UsersController {
   async updateUser(
     @Param('_id', ParseObjectIdPipe) _id: string,
     @Body() user: UpdateUserDto,
+    @Request() request: { user_id: string },
   ): Promise<User> {
-    return await this.usersService.update(_id, user);
+    return await this.usersService.update(_id, user, request.user_id);
   }
 
   @Delete(':_id')

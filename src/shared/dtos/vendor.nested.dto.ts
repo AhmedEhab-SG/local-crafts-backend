@@ -1,15 +1,14 @@
 import { IsMongoId, IsString } from 'class-validator';
 
 export class VendorNestedDto {
+  @IsString()
+  name: string;
+
+  @IsString()
   @IsMongoId()
-  _id: string;
-
-  @IsString()
-  main: string;
-
-  @IsString()
   gov: string;
 
   @IsString()
+  @IsMongoId()
   city: string;
 }

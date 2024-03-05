@@ -15,11 +15,36 @@ export class Product {
   @Prop({ required: true, minlength: 1 })
   photos: string[];
 
-  @Prop({ type: Object, required: true })
-  category: { _id: string; main: string; sub: string };
+  @Prop({
+    type: {
+      _id: false,
+      main: String,
+      sub: String,
+    },
+    required: true,
+  })
+  category: { main: string; sub: string };
 
-  @Prop({ type: Object, required: true })
-  vendor: { _id: string; main: string; gov: string; city: string };
+  @Prop({
+    type: {
+      _id: false,
+      id: {
+        ref: 'User',
+        type: String,
+      },
+      name: String,
+      gov: {
+        ref: 'Governorate',
+        type: String,
+      },
+      city: {
+        ref: 'City',
+        type: String,
+      },
+    },
+    required: true,
+  })
+  vendor: { id: string; name: string; gov: string; city: string };
 
   @Prop({ default: 0 })
   totalOrders: number;

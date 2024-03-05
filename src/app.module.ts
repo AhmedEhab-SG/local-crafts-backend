@@ -6,7 +6,6 @@ import { LocationsModule } from './locations/locations.module';
 import { ServicesModule } from './services/services.module';
 import { UsersModule } from './users/users.module';
 import { CategoriesModule } from './categories/categories.module';
-import 'dotenv/config';
 
 @Module({
   imports: [

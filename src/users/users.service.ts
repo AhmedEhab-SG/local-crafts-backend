@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -21,27 +22,50 @@ export class UsersService {
     return await this.userModel.findById({ _id }).exec();
   }
 
-  async update(_id: string, user: UpdateUserDto): Promise<User> {
-    const tagertUser = await this.userModel.findById({ _id }).exec();
+  async update(
+    _id: string,
+    user: UpdateUserDto,
+    reqUserId: string,
+  ): Promise<User> {
+    const requestedUser = await this.userModel
+      .findById({ _id: reqUserId })
+      .exec();
 
-    if (user?.password && user?.newPassword) {
-      const passwordMatches = await bcrypt.compare(
-        user.password,
-        tagertUser.password,
+    //most IMPORTANT Validation
+    if (requestedUser.role !== 'admin' && _id !== reqUserId)
+      throw new UnauthorizedException(
+        'You are not authorized to update this user',
       );
 
-      if (!passwordMatches) {
-        throw new BadRequestException('Invalid password');
+    const targetUser = await this.userModel.findById(_id).exec();
+
+    if (user.password || user.newPassword) {
+      if (
+        (!user.password || !user.newPassword) &&
+        requestedUser.role !== 'admin'
+      ) {
+        throw new BadRequestException(
+          'You must provide the current password and the new password',
+        );
+      }
+
+      if (requestedUser.role !== 'admin') {
+        const passwordMatches = await bcrypt.compare(
+          user.password,
+          targetUser.password,
+        );
+
+        if (!passwordMatches) {
+          throw new BadRequestException('Invalid current password');
+        }
       }
 
       user.password = await bcrypt.hash(user.newPassword, 10);
-      return await this.userModel.findByIdAndUpdate({ _id }, user).exec();
     }
 
-    return await this.userModel.findByIdAndUpdate(
-      { _id },
-      { ...user, password: tagertUser.password },
-    );
+    return await this.userModel
+      .findOneAndUpdate({ _id }, { ...user, _id })
+      .exec();
   }
 
   async delete(_id: string): Promise<User> {

@@ -1,5 +1,5 @@
 import { MongooseModule } from '@nestjs/mongoose';
-import { Service, ServicesSchema } from '../schemas/services.schema';
+import { Service, ServicesSchema } from '../schemas/service.schema';
 
 export const ServiceModel = MongooseModule.forFeatureAsync([
   { name: Service.name, useFactory: () => ServicesSchema },

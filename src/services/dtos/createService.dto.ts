@@ -36,10 +36,4 @@ export class CreateServiceDto {
   @ValidateNested()
   @Type(() => CategoryNestedDto)
   readonly category: CategoryNestedDto;
-
-  @IsObject()
-  @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => VendorNestedDto)
-  readonly vendor: VendorNestedDto;
 }

@@ -1,3 +1,5 @@
+import { UsersService } from './../users/users.service';
+
 import {
   Body,
   Controller,
@@ -6,10 +8,11 @@ import {
   Param,
   Patch,
   Post,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
-import { Product } from 'src/mongo/schemas/products.schema';
+import { Product } from 'src/mongo/schemas/product.schema';
 import { CreateProductDto } from './dtos/createProduct.dto';
 import { UpdateProductDto } from './dtos/updateProduct.dto';
 import { ParseObjectIdPipe } from 'src/shared/pipes/parseObjectId.pipe';
@@ -19,7 +22,10 @@ import { RolesGuard } from 'src/shared/guards/roles.guard';
 
 @Controller('products')
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productsService: ProductsService,
+    private readonly usersService: UsersService,
+  ) {}
 
   @Get()
   async getAllProducts(): Promise<Product[]> {
@@ -44,8 +50,12 @@ export class ProductsController {
   @UseGuards(RolesGuard)
   @UseGuards(AuthGuard)
   @Roles(['admin', 'vendor'])
-  async createProduct(@Body() product: CreateProductDto): Promise<Product> {
-    return await this.productsService.create(product);
+  async createProduct(
+    @Body() product: CreateProductDto,
+    @Request() request: { user_id: string },
+  ): Promise<Product> {
+    const vendor = await this.usersService.findById(request.user_id);
+    return await this.productsService.create(product, request.user_id, vendor);
   }
 
   @Patch(':_id')
@@ -55,8 +65,10 @@ export class ProductsController {
   async updateProduct(
     @Param('_id', ParseObjectIdPipe) _id: string,
     @Body() product: UpdateProductDto,
+    @Request() request: { role: string; user_id: string },
   ): Promise<Product> {
-    return await this.productsService.update(_id, product);
+    if (request.role === 'admin') request.user_id = request.role;
+    return await this.productsService.update(_id, product, request.user_id);
   }
 
   @Delete(':_id')
@@ -65,7 +77,9 @@ export class ProductsController {
   @Roles(['admin', 'vendor'])
   async deleteProduct(
     @Param('_id', ParseObjectIdPipe) _id: string,
+    @Request() request: { role: string; user_id: string },
   ): Promise<Product> {
-    return await this.productsService.delete(_id);
+    if (request.role === 'admin') request.user_id = request.role;
+    return await this.productsService.delete(_id, request.user_id);
   }
 }

@@ -19,6 +19,7 @@ export class RolesGuard implements CanActivate {
       const _id = request.user_id;
       const user = await this.usersService.findById(_id);
 
+      request['role'] = user.role;
       return roles.some((role) => role === user.role);
     }
 
