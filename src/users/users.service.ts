@@ -9,13 +9,32 @@ import { Model } from 'mongoose';
 import { User } from 'src/mongo/schemas/user.schema';
 import { UpdateUserDto } from './dtos/updateUser.dto';
 import * as bcrypt from 'bcrypt';
+import { PaginatedDto } from 'src/shared/dtos/paginated.dto';
+import { PaginateUtils } from 'src/shared/utils/paginate.utils';
 
 @Injectable()
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
-  async find(): Promise<User[]> {
-    return this.userModel.find().exec();
+  async find(page: number, limit: number): Promise<PaginatedDto<User>> {
+    const users = await this.userModel
+      .find()
+      .limit(limit)
+      .skip(limit * (page - 1))
+      .exec();
+
+    const itemCount = await this.userModel.countDocuments();
+
+    if (!users.length) throw new NotFoundException('No users found');
+
+    const paginateUtils = PaginateUtils.getInstance();
+
+    return new PaginatedDto<User>(
+      users.map(paginateUtils.convert),
+      page,
+      limit,
+      itemCount,
+    );
   }
 
   async findById(_id: string): Promise<User> {

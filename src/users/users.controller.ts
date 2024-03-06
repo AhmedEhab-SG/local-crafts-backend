@@ -3,10 +3,13 @@ import { UsersService } from './users.service';
 import {
   Body,
   Controller,
+  DefaultValuePipe,
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -15,6 +18,7 @@ import { Roles } from 'src/shared/decorators/roles.decorator';
 import { ParseObjectIdPipe } from 'src/shared/pipes/parseObjectId.pipe';
 import { User } from 'src/mongo/schemas/user.schema';
 import { UpdateUserDto } from './dtos/updateUser.dto';
+import { PaginatedDto } from 'src/shared/dtos/paginated.dto';
 
 @Controller('users')
 export class UsersController {
@@ -24,8 +28,11 @@ export class UsersController {
   @UseGuards(RolesGuard)
   @UseGuards(AuthGuard)
   @Roles(['admin'])
-  async getAllUsers() {
-    return await this.usersService.find();
+  async getUserssPaginate(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+    @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number,
+  ): Promise<PaginatedDto<User>> {
+    return await this.usersService.find(page, limit);
   }
 
   @Get(':_id')

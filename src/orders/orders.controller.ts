@@ -23,13 +23,12 @@ const ParseValidSection = new ParseIsInPipe(['services', 'products']);
 @UseGuards(RolesGuard)
 @UseGuards(AuthGuard)
 export class OrdersController {
-  constructor(private readonly orderService: OrdersService) { }
+  constructor(private readonly orderService: OrdersService) {}
 
   @Get('orders')
   @Roles(['admin', 'customer', 'vendor'])
   async allOrders(@Request() req: any): Promise<Order[]> {
-    if (req.role === 'admin')
-      return this.orderService.getAll();
+    if (req.role === 'admin') return this.orderService.getAll();
 
     const options = {};
     options[req.role] = req.user_id;
@@ -59,12 +58,11 @@ export class OrdersController {
   @Roles(['admin', 'customer', 'vendor'])
   async remove(
     @Param('id', ParseObjectIdPipe) id: string,
-    @Request() req: any
-  ) {
+    @Request() req: any,
+  ): Promise<any> {
     const options = {};
     options[req.role] = req.user_id;
-    if (req.role === 'admin')
-      delete options[req.user_role];
+    if (req.role === 'admin') delete options[req.user_role];
 
     return this.orderService.delete(id, options);
   }

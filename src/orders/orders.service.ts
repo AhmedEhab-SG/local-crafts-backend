@@ -12,8 +12,8 @@ export class OrdersService {
   constructor(
     @InjectModel(Service.name) private serviceModel: Model<Service>,
     @InjectModel(Product.name) private productModel: Model<Product>,
-    @InjectModel(Order.name) private orderModel: Model<Order>
-  ) { }
+    @InjectModel(Order.name) private orderModel: Model<Order>,
+  ) {}
 
   async getAll(options = {}): Promise<Order[]> {
     return await this.orderModel.find(options);
@@ -32,12 +32,12 @@ export class OrdersService {
     // check that the data is there in the db
     const model = orderData.service ? this.serviceModel : this.productModel;
     const target = await model.findById(orderData.service || orderData.product);
-    if (!target?.vendor?.id ) throw new NotFoundException();
+    if (!target?.vendor?.id) throw new NotFoundException();
     orderData.vendor = target.vendor.id;
     return await this.orderModel.create(orderData);
   }
 
-  async delete(_id: string, options = {}) {
+  async delete(_id: string, options = {}): Promise<any> {
     return await this.orderModel.deleteOne({ _id, ...options });
   }
 

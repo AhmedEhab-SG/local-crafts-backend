@@ -187,7 +187,7 @@ RESTful API for products & services market place with [Nest](https://github.com/
 ##### props: (\* means required)
 
 - name\*: string, min length 2, max length 50
-- prise\*: must be more than 0 and number
+- price\*: must be more than 0 and number
 - description\*: type string
 - photos\*: array of strings[] and min array length can be 0
 - description\*: string, min length 20, max length 500
@@ -222,7 +222,7 @@ RESTful API for products & services market place with [Nest](https://github.com/
 ##### props: (\* means required)
 
 - name: string, min length 2, max length 50
-- prise: must be more than 0 and number
+- price: must be more than 0 and number
 - description: type string
 - photos: array of strings[] and min array length can be 0
 - description: string, min length 20, max length 500
@@ -397,7 +397,7 @@ RESTful API for products & services market place with [Nest](https://github.com/
 ##### props: (\* means required)
 
 - name\*: string, min length 2, max length 50
-- prise\*: must be more than 0 and number
+- price\*: must be more than 0 and number
 - description\*: type string
 - photos\*: array of strings[] and min array length is 1
 - description\*: string, min length 20, max length 500
@@ -427,12 +427,12 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 #### PATCH /services/:serviceId
 
-> Update services by servicesId
+> Update service by servicesId
 
 ##### props: (\* means required)
 
 - name: string, min length 2, max length 50
-- prise: must be more than 0 and number
+- price: must be more than 0 and number
 - description: type string
 - photos: array of strings[] and min array length is 1
 - description: string, min length 20, max length 500
@@ -468,7 +468,7 @@ RESTful API for products & services market place with [Nest](https://github.com/
 
 #### DELETE /services/:serviceId
 
-> Delete services by serviceId
+> Delete service by serviceId
 
 </details>
 
@@ -504,6 +504,116 @@ RESTful API for products & services market place with [Nest](https://github.com/
   message: '500 > length > 10';
 }
 ```
+
+</details>
+
+---
+
+<details>
+ <summary><b>Users</b></summary>
+
+#### GET /users?page=1&limit=10
+
+> query and it takes page and limit default is 1 and 20 respectively
+
+#### return:
+
+```js
+{
+  "data": [
+    {
+      "id": "65e5cd41f9206d7ec12597",
+      "name": "ali",
+      "email": "ali@gg.ez",
+      "password": "hashedPassword",
+      "role": "vendor",
+      "address": {
+        "gov": "65e36f850475bb457ced99a9",
+        "city": "65e371f2617ef1dd3b697ec2"
+      },
+      "photo": "https/gg.ex",
+      "description": "علي علوكا"
+    },
+  ],
+  "meta": {
+    "page": 1,
+    "limit": 10,
+    "itemCount": 7,
+    "pageCount": 1,
+    "hasPreviousPage": false,
+    "hasNextPage": false
+  }
+}
+```
+
+---
+
+#### GET users/:userId
+
+> get user by Id
+
+#### return:
+
+```js
+{
+  "_id": "65e5cd41f9206d7ec12594",
+  "name": "ali",
+  "email": "ali@gg.ez",
+  "password": "hashedPassword",
+  "role": "vendor",
+  "address": {
+    "gov": "65e36f850475bb457ced99a9",
+    "city": "65e371f2617ef1dd3b697ec2"
+  },
+  "photo": "https/gg.ex",
+  "description": "علي علوكا",
+  "__v": 0
+}
+```
+
+---
+
+#### PATCH /users/:userId
+
+> Update user by userId
+
+##### props: (\* means required)
+
+- name: string, min length 2, max length 50
+- email: valid email (---@---.---)
+- password: strong password with at least 1 (number, lowercase, uppercase, symbol) -- ( if password found must provide newPassword )
+- newPasswword: strong password with at least 1 (number, lowercase, uppercase, symbol) -- ( if newPassword found must provide oldPassword as prop: "password" )
+- role: accepts only "customer" or "vendor"
+- photo: url
+- description: string, min length 20, max length 500
+- address.gov: string, the object Id of the governorate that is one of the existing ones in the database
+- address.city: string, the object Id of the city
+- address.street: string, min length 3 max 100
+
+#### example:
+
+```js
+{
+  "name": "ali",
+  "email": "ali@gg.ez",
+  "password": "oldPassword123@!",
+  "newPassword": "newPassword123@!",
+  "role": "vendor",
+  "address": {
+    "gov": "65e36f850475bb457ced99a9",
+    "city": "65e371f2617ef1dd3b697ec2"
+  },
+  "photo": "https/gg.ex",
+  "description": "علي علوكا",
+  "__v": 0
+}
+```
+
+---
+
+#### DELETE /users/:userId
+
+> Delete user by serviceId
 
 </details>
 
