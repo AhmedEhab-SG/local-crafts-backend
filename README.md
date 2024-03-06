@@ -765,7 +765,7 @@ response
 ---
 
 <details>
- <summary><b>Locations</b></summary>
+ <summary><b>Categories</b></summary>
 
 #### GET services/categories/
 #### GET products/categories/
