@@ -13,9 +13,9 @@
 
 RESTful API for products & services market place with [Nest](https://github.com/nestjs/nest) framework.
 
-## How to attach the token
+## Token
 
-> In order to use some of the endpoint you will need first to login and your own token
+> In order to use some of the endpoints you will need first to login and use your own token
 
 #### In Request headers add prop calls "token"
 
