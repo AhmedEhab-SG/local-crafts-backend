@@ -33,9 +33,7 @@ headers = {
 response = requests.get(url, { headers });
 ```
 
----
-
-## API end points
+## API Endpoints
 
 <details>
  <summary><b>Authentication</b></summary>
@@ -663,9 +661,11 @@ response = requests.get(url, { headers });
  <summary><b>Locations</b></summary>
 
 #### GET /locatoins/governorates
+
 > get all available governorates
 
 response
+
 ```json
 [
   {
@@ -687,9 +687,11 @@ response
 ```
 
 #### GET locations/cities/:govId
+
 > get cities in a governorate
 
 response
+
 ```json
 [
   {
@@ -714,7 +716,6 @@ response
 ```
 
 </details>
-
 
 ## Installation
 
