@@ -42,17 +42,18 @@ response = requests.get(url, { headers });
 
 #### POST /auth/register
 
-#### props: (\* means required)
-
-- name\*: string, min length 2, max length 50
-- email\*: valid email (---@---.---)
-- password\*: strong password with at least 1 (number, lowercase, uppercase, symbol)
-- role\*: accepts only "customer" or "vendor"
-- photo: url
-- description: string, min length 20, max length 500
-- address.gov: string, the object Id of the governorate that is one of the existing ones in the database
-- address.city: string, the object Id of the city
-- address.street: string, min length 3 max 100
+> ##### request body props: (\* means required)
+> - name\*: string, min length 2, max length 50
+> - email\*: valid email (---@---.---)
+> - password\*: strong password with at least 1 (number, lowercase, uppercase, symbol)
+> - role\*: accepts only "customer" or "vendor"
+> - photo: string, url
+> - job\* for vendor: stirng min length 2, max 50
+> - phone\* for vendor: string, phone number
+> - description\* for vendor : string, min length 20, max length 500
+> - address.gov\* for vendor: string, the object Id of the governorate that is one of the existing ones in the database
+> - address.city\* for vendor: string, the object Id of the city
+> - address.street: string, min length 3 max 100
 
 ```json
 // request body example
@@ -61,6 +62,8 @@ response = requests.get(url, { headers });
   "email": "ali@gmail.com",
   "password": "1234abCd!",
   "role": "vendor",
+  "job": "graphic designer",
+  "phone": "01234567891",
   "photo": "images.net/ali.png",
   "description": "Hello I am Ali"
   "address": {
