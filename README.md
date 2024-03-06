@@ -190,9 +190,9 @@ RESTful API for products & services market place with [Nest](https://github.com/
 - prise\*: must be more than 0 and number
 - description\*: type string
 - photos\*: array of strings[] and min array length can be 0
-- description: string, min length 20, max length 500
-- category.main: must be string main category
-- category.sub: must be string sub category
+- description\*: string, min length 20, max length 500
+- category.main\*: must be string main category
+- category.sub\*: must be string sub category
 
 #### example:
 
@@ -400,9 +400,9 @@ RESTful API for products & services market place with [Nest](https://github.com/
 - prise\*: must be more than 0 and number
 - description\*: type string
 - photos\*: array of strings[] and min array length is 1
-- description: string, min length 20, max length 500
-- category.main: must be string main category
-- category.sub: must be string sub category
+- description\*: string, min length 20, max length 500
+- category.main\*: must be string main category
+- category.sub\*: must be string sub category
 
 #### example:
 
