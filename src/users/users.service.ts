@@ -83,7 +83,7 @@ export class UsersService {
     }
 
     return await this.userModel
-      .findOneAndUpdate({ _id }, { ...user, _id })
+      .findOneAndUpdate({ _id }, { ...user, email: targetUser.email, _id })
       .exec();
   }
 

@@ -13,6 +13,28 @@
 
 RESTful API for products & services market place with [Nest](https://github.com/nestjs/nest) framework.
 
+## How to attach the token
+
+> In order to use some of the endpoint you will need first to login and your own token
+
+#### In Request headers add prop calls "token"
+
+#### example:
+
+```js
+headers = {
+  token: 'yourOwnToken',
+};
+```
+
+#### And then send this as header, something like this
+
+```js
+response = requests.get(url, { headers });
+```
+
+---
+
 ## API end points
 
 <details>
@@ -183,6 +205,8 @@ RESTful API for products & services market place with [Nest](https://github.com/
 #### POST /products
 
 > Create new product
+> [!CAUTION]
+> Requires Token
 
 ##### props: (\* means required)
 
@@ -218,6 +242,8 @@ RESTful API for products & services market place with [Nest](https://github.com/
 #### PATCH /products/:productId
 
 > Update product by productId
+> [!CAUTION]
+> Requires Token
 
 ##### props: (\* means required)
 
@@ -259,6 +285,8 @@ RESTful API for products & services market place with [Nest](https://github.com/
 #### DELETE /products/:productId
 
 > Delete product by productId
+> [!CAUTION]
+> Requires Token
 
 </details>
 
@@ -393,6 +421,8 @@ RESTful API for products & services market place with [Nest](https://github.com/
 #### POST /services
 
 > Create new service
+> [!CAUTION]
+> Requires Token
 
 ##### props: (\* means required)
 
@@ -428,6 +458,8 @@ RESTful API for products & services market place with [Nest](https://github.com/
 #### PATCH /services/:serviceId
 
 > Update service by servicesId
+> [!CAUTION]
+> Requires Token
 
 ##### props: (\* means required)
 
@@ -469,6 +501,8 @@ RESTful API for products & services market place with [Nest](https://github.com/
 #### DELETE /services/:serviceId
 
 > Delete service by serviceId
+> [!CAUTION]
+> Requires Token
 
 </details>
 
@@ -515,6 +549,8 @@ RESTful API for products & services market place with [Nest](https://github.com/
 #### GET /users?page=1&limit=10
 
 > query and it takes page and limit default is 1 and 20 respectively
+> [!CAUTION]
+> Requires Token
 
 #### return:
 
@@ -551,6 +587,8 @@ RESTful API for products & services market place with [Nest](https://github.com/
 #### GET users/:userId
 
 > get user by Id
+> [!CAUTION]
+> Requires Token
 
 #### return:
 
@@ -576,11 +614,12 @@ RESTful API for products & services market place with [Nest](https://github.com/
 #### PATCH /users/:userId
 
 > Update user by userId
+> [!CAUTION]
+> Requires Token
 
 ##### props: (\* means required)
 
 - name: string, min length 2, max length 50
-- email: valid email (---@---.---)
 - password: strong password with at least 1 (number, lowercase, uppercase, symbol) -- ( if password found must provide newPassword )
 - newPasswword: strong password with at least 1 (number, lowercase, uppercase, symbol) -- ( if newPassword found must provide oldPassword as prop: "password" )
 - role: accepts only "customer" or "vendor"
@@ -595,7 +634,6 @@ RESTful API for products & services market place with [Nest](https://github.com/
 ```js
 {
   "name": "ali",
-  "email": "ali@gg.ez",
   "password": "oldPassword123@!",
   "newPassword": "newPassword123@!",
   "role": "vendor",
@@ -614,6 +652,8 @@ RESTful API for products & services market place with [Nest](https://github.com/
 #### DELETE /users/:userId
 
 > Delete user by serviceId
+> [!CAUTION]
+> Requires Token
 
 </details>
 
