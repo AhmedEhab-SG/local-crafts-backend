@@ -13,9 +13,9 @@
 
 RESTful API for products & services market place with [Nest](https://github.com/nestjs/nest) framework.
 
-## How to attach the token
+## Token
 
-> In order to use some of the endpoint you will need first to login and your own token
+> In order to use some of the endpoints you will need first to login and use your own token
 
 #### In Request headers add prop calls "token"
 
@@ -33,9 +33,7 @@ headers = {
 response = requests.get(url, { headers });
 ```
 
----
-
-## API end points
+## API Endpoints
 
 <details>
  <summary><b>Authentication</b></summary>
@@ -683,9 +681,11 @@ response = requests.get(url, { headers });
  <summary><b>Locations</b></summary>
 
 #### GET /locatoins/governorates
+
 > get all available governorates
 
 response
+
 ```json
 [
   {
@@ -707,9 +707,11 @@ response
 ```
 
 #### GET locations/cities/:govId
+
 > get cities in a governorate
 
 response
+
 ```json
 [
   {
@@ -760,6 +762,7 @@ response
 
 </details>
 
+<<<<<<< HEAD
 ---
 
 <details>
@@ -903,6 +906,8 @@ response body on success
 
 ---
 
+=======
+>>>>>>> origin/master
 ## Installation
 
 ```bash
