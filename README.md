@@ -163,25 +163,25 @@ response = requests.get(url, { headers });
     "photos": [
       "https://i.imgur.com/1o3KcN6.png",
       "https://i.imgur.com/1o3KcN6.png",
-      "https://i.imgur.com/1o3KcN6.png",
+      "https://i.imgur.com/1o3KcN6.png"
     ],
     "category": {
       "main": "نجاره",
-      "sub": "خشب",
+      "sub": "خشب"
     },
     "vendor": {
       "id": "65e5f706e9c9ebb9d8205",
       "name": "test",
       "gov": "65e36f850475bb457ced9",
-      "city": "65e371f2617ef1dd3b692",
+      "city": "65e371f2617ef1dd3b692"
     },
     "totalOrders": 0,
     "avgRating": 0,
     "approved": false,
     "createdAt": "2024-03-04T16:34:56.971Z",
-    "__v": 0,
-  },
-];
+    "__v": 0
+  }
+]
 ```
 
 ---
@@ -379,25 +379,25 @@ response = requests.get(url, { headers });
     "photos": [
       "https://i.imgur.com/1o3KcN6.png",
       "https://i.imgur.com/1o3KcN6.png",
-      "https://i.imgur.com/1o3KcN6.png",
+      "https://i.imgur.com/1o3KcN6.png"
     ],
     "category": {
       "main": "نجاره",
-      "sub": "خشب",
+      "sub": "خشب"
     },
     "vendor": {
       "id": "65e5f706e9c9ebb9d8205",
       "name": "test",
       "gov": "65e36f850475bb457ced9",
-      "city": "65e371f2617ef1dd3b692",
+      "city": "65e371f2617ef1dd3b692"
     },
     "totalOrders": 0,
     "avgRating": 0,
     "approved": false,
     "createdAt": "2024-03-04T16:34:56.971Z",
-    "__v": 0,
-  },
-];
+    "__v": 0
+  }
+]
 ```
 
 ---
