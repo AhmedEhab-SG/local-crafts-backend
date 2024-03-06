@@ -762,7 +762,6 @@ response
 
 </details>
 
-<<<<<<< HEAD
 ---
 
 <details>
@@ -906,8 +905,6 @@ response body on success
 
 ---
 
-=======
->>>>>>> origin/master
 ## Installation
 
 ```bash
