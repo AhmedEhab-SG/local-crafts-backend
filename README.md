@@ -41,6 +41,7 @@ response = requests.get(url, { headers });
 #### POST /auth/register
 
 > ##### request body props: (\* means required)
+>
 > - name\*: string, min length 2, max length 50
 > - email\*: valid email (---@---.---)
 > - password\*: strong password with at least 1 (number, lowercase, uppercase, symbol)
@@ -73,6 +74,7 @@ response = requests.get(url, { headers });
 ```
 
 #### POST /auth/login
+
 > request an access_token
 
 ```json
@@ -103,7 +105,7 @@ response = requests.get(url, { headers });
 
 #### return:
 
-```js
+```json
 {
   "data": [
     {
@@ -130,7 +132,7 @@ response = requests.get(url, { headers });
       "avgRating": 0,
       "approved": false,
       "createdAt": "2024-03-04T16:34:56.971Z"
-    },
+    }
   ],
   "meta": {
     "page": 1,
@@ -151,33 +153,33 @@ response = requests.get(url, { headers });
 
 #### return:
 
-```js
+```json
 [
   {
-    _id: '65e5f83085020468684',
-    name: 'test7',
-    price: 250,
-    description: 'test test',
-    photos: [
-      'https://i.imgur.com/1o3KcN6.png',
-      'https://i.imgur.com/1o3KcN6.png',
-      'https://i.imgur.com/1o3KcN6.png',
+    "_id": "65e5f83085020468684",
+    "name": "test7",
+    "price": 250,
+    "description": "test test",
+    "photos": [
+      "https://i.imgur.com/1o3KcN6.png",
+      "https://i.imgur.com/1o3KcN6.png",
+      "https://i.imgur.com/1o3KcN6.png",
     ],
-    category: {
-      main: 'نجاره',
-      sub: 'خشب',
+    "category": {
+      "main": "نجاره",
+      "sub": "خشب",
     },
-    vendor: {
-      id: '65e5f706e9c9ebb9d8205',
-      name: 'test',
-      gov: '65e36f850475bb457ced9',
-      city: '65e371f2617ef1dd3b692',
+    "vendor": {
+      "id": "65e5f706e9c9ebb9d8205",
+      "name": "test",
+      "gov": "65e36f850475bb457ced9",
+      "city": "65e371f2617ef1dd3b692",
     },
-    totalOrders: 0,
-    avgRating: 0,
-    approved: false,
-    createdAt: '2024-03-04T16:34:56.971Z',
-    __v: 0,
+    "totalOrders": 0,
+    "avgRating": 0,
+    "approved": false,
+    "createdAt": "2024-03-04T16:34:56.971Z",
+    "__v": 0,
   },
 ];
 ```
@@ -190,7 +192,7 @@ response = requests.get(url, { headers });
 
 #### return:
 
-```js
+```json
 {
   "id": "65e5f83085020468684cf",
   "name": "test1",
@@ -238,7 +240,7 @@ response = requests.get(url, { headers });
 
 #### example:
 
-```js
+```json
 {
   "name": "test4",
   "price": 250,
@@ -278,7 +280,7 @@ response = requests.get(url, { headers });
 
 #### example:
 
-```js
+```json
 {
   "name": "test4",
   "price": 250,
@@ -294,7 +296,7 @@ response = requests.get(url, { headers });
   },
   "totalOrders": 0,
   "avgRating": 0,
-  "approved": false,
+  "approved": false
 }
 ```
 
@@ -319,7 +321,7 @@ response = requests.get(url, { headers });
 
 #### return:
 
-```js
+```json
 {
   "data": [
     {
@@ -346,7 +348,7 @@ response = requests.get(url, { headers });
       "avgRating": 0,
       "approved": false,
       "createdAt": "2024-03-04T16:34:56.971Z"
-    },
+    }
   ],
   "meta": {
     "page": 1,
@@ -367,33 +369,33 @@ response = requests.get(url, { headers });
 
 #### return:
 
-```js
+```json
 [
   {
-    _id: '65e5f83085020468684',
-    name: 'test7',
-    price: 250,
-    description: 'test test',
-    photos: [
-      'https://i.imgur.com/1o3KcN6.png',
-      'https://i.imgur.com/1o3KcN6.png',
-      'https://i.imgur.com/1o3KcN6.png',
+    "_id": "65e5f83085020468684",
+    "name": "test7",
+    "price": 250,
+    "description": "test test",
+    "photos": [
+      "https://i.imgur.com/1o3KcN6.png",
+      "https://i.imgur.com/1o3KcN6.png",
+      "https://i.imgur.com/1o3KcN6.png",
     ],
-    category: {
-      main: 'نجاره',
-      sub: 'خشب',
+    "category": {
+      "main": "نجاره",
+      "sub": "خشب",
     },
-    vendor: {
-      id: '65e5f706e9c9ebb9d8205',
-      name: 'test',
-      gov: '65e36f850475bb457ced9',
-      city: '65e371f2617ef1dd3b692',
+    "vendor": {
+      "id": "65e5f706e9c9ebb9d8205",
+      "name": "test",
+      "gov": "65e36f850475bb457ced9",
+      "city": "65e371f2617ef1dd3b692",
     },
-    totalOrders: 0,
-    avgRating: 0,
-    approved: false,
-    createdAt: '2024-03-04T16:34:56.971Z',
-    __v: 0,
+    "totalOrders": 0,
+    "avgRating": 0,
+    "approved": false,
+    "createdAt": "2024-03-04T16:34:56.971Z",
+    "__v": 0,
   },
 ];
 ```
@@ -406,7 +408,7 @@ response = requests.get(url, { headers });
 
 #### return:
 
-```js
+```json
 {
   "id": "65e5f83085020468684cf",
   "name": "test1",
@@ -454,7 +456,7 @@ response = requests.get(url, { headers });
 
 #### example:
 
-```js
+```json
 {
   "name": "test4",
   "price": 250,
@@ -494,7 +496,7 @@ response = requests.get(url, { headers });
 
 #### example:
 
-```js
+```json
 {
   "name": "test4",
   "price": 250,
@@ -510,7 +512,7 @@ response = requests.get(url, { headers });
   },
   "totalOrders": 0,
   "avgRating": 0,
-  "approved": false,
+  "approved": false
 }
 ```
 
@@ -572,7 +574,7 @@ response = requests.get(url, { headers });
 
 #### return:
 
-```js
+```json
 {
   "data": [
     {
@@ -587,7 +589,7 @@ response = requests.get(url, { headers });
       },
       "photo": "https/gg.ex",
       "description": "علي علوكا"
-    },
+    }
   ],
   "meta": {
     "page": 1,
@@ -610,7 +612,7 @@ response = requests.get(url, { headers });
 
 #### return:
 
-```js
+```json
 {
   "_id": "65e5cd41f9206d7ec12594",
   "name": "ali",
@@ -649,7 +651,7 @@ response = requests.get(url, { headers });
 
 #### example:
 
-```js
+```json
 {
   "name": "ali",
   "password": "oldPassword123@!",
@@ -736,28 +738,33 @@ response
 ```
 
 #### POST /locations/governorates
+
 > add new governorates
 
 > [!CAUTION]
 > body schema: Array of strings
+
 ```json
-[ "الاقصر", "شمال سيناء", "البحيرة" ]
+["الاقصر", "شمال سيناء", "البحيرة"]
 ```
 
 #### POST /locations/cities/:govId
+
 > add new cities to a governorate
 
 > [!CAUTION]
 > body schema: Array of strings
 
 ```json
-[ "السلام", "المرج", "مدينة نصر" ]
+["السلام", "المرج", "مدينة نصر"]
 ```
 
 #### DELETE /locations/governorates/:govId
+
 > delete a governorate and all related cities / users
 
 #### DELETE /locations/cities/:cityId
+
 > delete a city and all related users
 
 </details>
@@ -768,10 +775,13 @@ response
  <summary><b>Categories</b></summary>
 
 #### GET services/categories/
+
 #### GET products/categories/
+
 > get all (services or products) categories
 
 response body
+
 ```json
 [
   {
@@ -790,13 +800,17 @@ response body
   }
 ]
 ```
+
 ---
 
 #### GET services/categories/:categoryId
+
 #### GET products/categories/:categoryId
+
 > get all (services or products) sub categories of one category
 
 response body
+
 ```json
 [
   {
@@ -819,18 +833,23 @@ response body
   }
 ]
 ```
+
 ---
 
 #### POST services/categories/
+
 #### POST products/categories/
+
 > add main category (services or products)
 
 > Body Schema: Object with the following props
+>
 > - name: required, string, min length 3, max length 50
 > - photo: string, url
 > - description: string min length 10 max lenght 500
 
 request body
+
 ```json
 {
   "name": "سبااااكههه",
@@ -840,6 +859,7 @@ request body
 ```
 
 response body if added successfully
+
 ```json
 {
   "name": "سبااااكههه",
@@ -849,43 +869,54 @@ response body if added successfully
   "__v": 0
 }
 ```
+
 ---
 
 #### POST services/categories/:categoryId
+
 #### POST products/categories/:categoryId
+
 > add sub categories to a category
 
 > [!CAUTION]
 > body schema: Array of strings
 
 request body
+
 ```json
-[ "باب و شباك", "مطابخ", "مكاتب" ]
+["باب و شباك", "مطابخ", "مكاتب"]
 ```
 
 response body
+
 ```
 ... same as GET if no conflict happened
 ```
+
 ---
 
 #### PATCH services/categories/:categoryId
+
 #### PATCH products/categories/:categoryId
+
 > Update category by Id (main or sub)
 
 > Body Schema: Object with the following props
+>
 > - name: string, min length 3, max length 50
 > - photo: string, url
 > - description: string min length 10 max lenght 500
 
 request body
+
 ```json
 {
-  "name": "سباكه",
+  "name": "سباكه"
 }
 ```
 
 response body on success
+
 ```json
 {
   "name": "سباكه",
@@ -895,10 +926,13 @@ response body on success
   "__v": 0
 }
 ```
+
 ---
 
 #### DELETE services/categories/:categoryId
+
 #### DELETE products/categories/:categoryId
+
 > Delete category (main or sub)
 
 </details>
