@@ -659,6 +659,63 @@ response = requests.get(url, { headers });
 
 ---
 
+<details>
+ <summary><b>Locations</b></summary>
+
+#### GET /locatoins/governorates
+> get all available governorates
+
+response
+```json
+[
+  {
+    "_id": "65e36f850475bb457ced99a9",
+    "name": "الاسكندرية",
+    "__v": 0
+  },
+  {
+    "_id": "65e36f850475bb457ced99ac",
+    "name": "القاهرة",
+    "__v": 0
+  },
+  {
+    "_id": "65e36f850475bb457ced99ad",
+    "name": "الشرقية",
+    "__v": 0
+  }
+]
+```
+
+#### GET locations/cities/:govId
+> get cities in a governorate
+
+response
+```json
+[
+  {
+    "_id": "65e374093c963b2c090fe3b5",
+    "name": "السلام",
+    "gov": "65e36f850475bb457ced99ac",
+    "__v": 0
+  },
+  {
+    "_id": "65e374093c963b2c090fe3b6",
+    "name": "المرج",
+    "gov": "65e36f850475bb457ced99ac",
+    "__v": 0
+  },
+  {
+    "_id": "65e374093c963b2c090fe3b7",
+    "name": "مدينة نصر",
+    "gov": "65e36f850475bb457ced99ac",
+    "__v": 0
+  }
+]
+```
+
+</details>
+
+
 ## Installation
 
 ```bash
