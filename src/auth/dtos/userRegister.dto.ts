@@ -6,6 +6,8 @@ import {
   IsOptional,
   ValidateNested,
   IsNotEmptyObject,
+  IsString,
+  ValidateIf,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { UserLoginDto } from './userLogin.dto';
@@ -22,14 +24,25 @@ export class UserRegisterDto extends UserLoginDto {
   @IsOptional()
   photo: string;
 
+  @IsString()
+  @Length(3, 64)
+  @ValidateIf((o) => o.role === 'vendor')
+  job: string;
+
+  @IsString()
+  @Length(3, 64)
+  @ValidateIf((o) => o.role === 'vendor')
+  phone: string;
+
   @IsObject()
-  @IsOptional()
   @IsNotEmptyObject()
   @ValidateNested()
   @Type(() => AddressDto)
+  @ValidateIf((o) => o.role === 'vendor')
   address: AddressDto;
 
   @Length(3, 512)
   @IsOptional()
+  @ValidateIf((o) => o.role === 'vendor')
   description: string;
 }
