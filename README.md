@@ -54,9 +54,8 @@ response = requests.get(url, { headers });
 - address.city: string, the object Id of the city
 - address.street: string, min length 3 max 100
 
-#### example:
-
-```js
+```json
+// request body example
 {
   "name": "ali",
   "email": "ali@gmail.com",
@@ -69,6 +68,24 @@ response = requests.get(url, { headers });
     "city": "65e4b9c77615d13c7864134g",
     "street": "Awl Abbas St."
   }
+}
+```
+
+#### POST /auth/login
+> request an access_token
+
+```json
+// request body example
+{
+  "email": "ali@gmail.com",
+  "password": "1234abCd!"
+}
+```
+
+```json
+// response body example
+{
+  "access_token": "hfpashfuiwndlkfawlkejfoialwef.woiejfoijasoiejflwkejfajwoiefj.aoweijfoaiwjfioawjefoijasdlkfjawoiefj23oijodjfa09wjef3489rpjwefoijw"
 }
 ```
 
@@ -713,8 +730,175 @@ response
 ]
 ```
 
+#### POST /locations/governorates
+> add new governorates
+
+> [!CAUTION]
+> body schema: Array of strings
+```json
+[ "الاقصر", "شمال سيناء", "البحيرة" ]
+```
+
+#### POST /locations/cities/:govId
+> add new cities to a governorate
+
+> [!CAUTION]
+> body schema: Array of strings
+
+```json
+[ "السلام", "المرج", "مدينة نصر" ]
+```
+
+#### DELETE /locations/governorates/:govId
+> delete a governorate and all related cities / users
+
+#### DELETE /locations/cities/:cityId
+> delete a city and all related users
+
 </details>
 
+---
+
+<details>
+ <summary><b>Locations</b></summary>
+
+#### GET services/categories/
+#### GET products/categories/
+> get all (services or products) categories
+
+response body
+```json
+[
+  {
+    "_id": "65e4b9c77615d13c7864a0c4",
+    "name": "اعمال نجااااااارة",
+    "description": "باب النجارين بتوعنا مش مخلع",
+    "photo": "www/gg/ez",
+    "__v": 0
+  },
+  {
+    "_id": "65e86289ba817f471d0d653b",
+    "name": "سبااااكههه",
+    "description": "سباكين محنكين عالأخر",
+    "photo": "www/gg/ez",
+    "__v": 0
+  }
+]
+```
+---
+
+#### GET services/categories/:categoryId
+#### GET products/categories/:categoryId
+> get all (services or products) sub categories of one category
+
+response body
+```json
+[
+  {
+    "_id": "65e4c166934f4917574449b5",
+    "name": "باب و شباك",
+    "parent": "65e4b9c77615d13c7864a0c4",
+    "__v": 0
+  },
+  {
+    "_id": "65e4c166934f4917574449b7",
+    "name": "مكاتب",
+    "parent": "65e4b9c77615d13c7864a0c4",
+    "__v": 0
+  },
+  {
+    "_id": "65e77927c9bc33d8a77113cf",
+    "name": "مطابخ",
+    "parent": "65e4b9c77615d13c7864a0c4",
+    "__v": 0
+  }
+]
+```
+---
+
+#### POST services/categories/
+#### POST products/categories/
+> add main category (services or products)
+
+> Body Schema: Object with the following props
+> - name: required, string, min length 3, max length 50
+> - photo: string, url
+> - description: string min length 10 max lenght 500
+
+request body
+```json
+{
+  "name": "سبااااكههه",
+  "description": "سباكين محنكين عالأخر",
+  "photo": "www/gg/ez"
+}
+```
+
+response body if added successfully
+```json
+{
+  "name": "سبااااكههه",
+  "description": "سباكين محنكين عالأخر",
+  "photo": "www/gg/ez",
+  "_id": "65e86289ba817f471d0d653b",
+  "__v": 0
+}
+```
+---
+
+#### POST services/categories/:categoryId
+#### POST products/categories/:categoryId
+> add sub categories to a category
+
+> [!CAUTION]
+> body schema: Array of strings
+
+request body
+```json
+[ "باب و شباك", "مطابخ", "مكاتب" ]
+```
+
+response body
+```
+... same as GET if no conflict happened
+```
+---
+
+#### PATCH services/categories/:categoryId
+#### PATCH products/categories/:categoryId
+> Update category by Id (main or sub)
+
+> Body Schema: Object with the following props
+> - name: string, min length 3, max length 50
+> - photo: string, url
+> - description: string min length 10 max lenght 500
+
+request body
+```json
+{
+  "name": "سباكه",
+}
+```
+
+response body on success
+```json
+{
+  "name": "سباكه",
+  "description": "سباكين محنكين عالأخر",
+  "photo": "www/gg/ez",
+  "_id": "65e86289ba817f471d0d653b",
+  "__v": 0
+}
+```
+---
+
+#### DELETE services/categories/:categoryId
+#### DELETE products/categories/:categoryId
+> Delete category (main or sub)
+
+</details>
+
+---
 
 ## Installation
 
