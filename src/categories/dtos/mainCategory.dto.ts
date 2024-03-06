@@ -17,6 +17,6 @@ export class MainCategoryDto {
 
   @IsNotEmpty()
   @IsString()
-  @Length(3, 50)
+  @Length(3, 200)
   photo: string;
 }
