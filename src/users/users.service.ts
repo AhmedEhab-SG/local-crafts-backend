@@ -38,7 +38,7 @@ export class UsersService {
   }
 
   async findById(_id: string): Promise<User> {
-    return await this.userModel.findById({ _id }).exec();
+    return await this.userModel.findOne({ _id }, { password: 0 }).exec();
   }
 
   async update(
