@@ -27,6 +27,7 @@ export class AuthService {
 
       const payload = { email: user.email, sub: user._id };
       return {
+        user: {...user, password: undefined},
         access_token: this.jwtService.sign(payload, {
           expiresIn: process.env.JWT_EXPIRE,
           secret: process.env.JWT_SECRET,
