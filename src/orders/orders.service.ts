@@ -1,11 +1,11 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, model } from 'mongoose';
+import { Model } from 'mongoose';
 import { Order } from 'src/mongo/schemas/orders.schema';
-import { CreateOrderDto } from './dtos/createOrder.dto';
 import { UpdateOrderDto } from './dtos/updateOrder.dto';
 import { Service } from 'src/mongo/schemas/service.schema';
 import { Product } from 'src/mongo/schemas/product.schema';
+import { PaginatedDto } from 'src/shared/dtos/paginated.dto';
 
 @Injectable()
 export class OrdersService {
@@ -15,12 +15,21 @@ export class OrdersService {
     @InjectModel(Order.name) private orderModel: Model<Order>,
   ) {}
 
-  async getAll(options = {}): Promise<Order[]> {
-    return await this.orderModel.find(options);
+  async getAll(options = {}, page: number, limit: number) {
+    const all = await this.orderModel.find(options)
+      .skip((page - 1) * limit).limit(limit);
+
+    return new PaginatedDto<Order>(all, page, limit, all.length);
   }
 
   async getOne(id: string): Promise<Order> {
-    const order = await this.orderModel.findById(id);
+    const order = (await this.orderModel.findById(id))
+      .populate([
+        {path: 'customer', select: 'name'},
+        {path: 'service', select: 'name'},
+        {path: 'product', select: 'name'},
+        {path: 'vendor', select: 'name'},
+      ])
     if (!order) {
       throw new NotFoundException();
     } else {

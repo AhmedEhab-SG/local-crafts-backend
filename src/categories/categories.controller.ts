@@ -2,12 +2,16 @@ import {
   Get, Post, Patch, Delete,
   Controller, Param, Body,
   ParseArrayPipe, ConflictException,
+  UseGuards,
 } from '@nestjs/common';
 import { MainCategoryDto } from './dtos/mainCategory.dto';
 import { UpdateCategoryDto } from './dtos/updateCategory.dto';
 import { ParseObjectIdPipe } from 'src/shared/pipes/parseObjectId.pipe';
 import { CategoriesService } from './categories.service';
 import { ParseIsInPipe } from 'src/shared/pipes/parseIsIn.pipe';
+import { AuthGuard } from 'src/shared/guards/auth.guard';
+import { RolesGuard } from 'src/shared/guards/roles.guard';
+import { Roles } from 'src/shared/decorators/roles.decorator';
 
 const ParseValidSection = new ParseIsInPipe(['services', 'products']);
 @Controller(':section/categories')
@@ -28,6 +32,9 @@ export class CategoriesController {
   }
 
   @Post()
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  @Roles(['admin'])
   async addMainCategory(
     @Param('section', ParseValidSection) section: string,
     @Body() body: MainCategoryDto
@@ -40,6 +47,9 @@ export class CategoriesController {
   }
 
   @Post(':parentId')
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  @Roles(['admin'])
   async addSubCategories(
     @Param('section', ParseValidSection) section: string,
     @Param('parentId', ParseObjectIdPipe) id: string,
@@ -59,6 +69,9 @@ export class CategoriesController {
   }
 
   @Patch(':id')
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  @Roles(['admin'])
   updateCategory(
     @Param('section', ParseValidSection) section: string,
     @Param('id', ParseObjectIdPipe) id: string,
@@ -68,6 +81,9 @@ export class CategoriesController {
   }
 
   @Delete(':id')
+  @UseGuards(RolesGuard)
+  @UseGuards(AuthGuard)
+  @Roles(['admin'])
   deleteCategory(
     @Param('section', ParseValidSection) section: string,
     @Param('id', ParseObjectIdPipe) id: string

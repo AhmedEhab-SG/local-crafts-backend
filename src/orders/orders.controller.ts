@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -27,12 +28,14 @@ export class OrdersController {
 
   @Get('orders')
   @Roles(['admin', 'customer', 'vendor'])
-  async allOrders(@Request() req: any): Promise<Order[]> {
-    if (req.role === 'admin') return this.orderService.getAll();
-
+  async allOrders(
+    @Request() req: any,
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 10,
+  ) {
     const options = {};
-    options[req.role] = req.user_id;
-    return this.orderService.getAll(options);
+    if (req.role !== 'admin') options[req.role] = req.user_id;
+    return this.orderService.getAll(options, page, limit);
   }
 
   @Get('orders/:id')
