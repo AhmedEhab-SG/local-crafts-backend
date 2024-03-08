@@ -32,6 +32,9 @@ export class Order {
   @Prop()
   message: string;
 
+  @Prop()
+  phone: string;
+
   @Prop({ type: Date, default: Date.now, required: true })
   createdAt: Date;
 }
