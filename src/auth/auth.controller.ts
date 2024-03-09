@@ -1,25 +1,33 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, NotAcceptableException, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserRegisterDto } from './dtos/userRegister.dto';
 import { UserLoginDto } from './dtos/userLogin.dto';
-import { VendorRegisterDto } from './dtos/vendorRegister.dto';
+import { EmailCodeDto } from '../shared/dtos/emailCode.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService) { }
 
   @Post('login')
   login(@Body() user: UserLoginDto) {
-    return this.authService.login(user);
+      return this.authService.login(user);
   }
 
   @Post('register')
   async register(@Body() user: UserRegisterDto) {
-    await this.authService.register(user);
+    try {
+      return await this.authService.register(user);
+    } catch (err) {
+      throw new NotAcceptableException(err);
+    }
   }
 
-  @Post('register/vendor')
-  async registerVendor(@Body() user: VendorRegisterDto) {
-    await this.authService.registerVendor(user);
+  @Post('confirm')
+  async confirmEmail(@Body() { email, code }: EmailCodeDto) {
+    try {
+      return await this.authService.approveUser(email, code);
+    } catch (err) {
+      throw new NotAcceptableException("Invalid information provided!");
+    }
   }
 }

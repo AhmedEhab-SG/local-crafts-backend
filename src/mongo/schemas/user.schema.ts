@@ -55,6 +55,9 @@ export class User {
 
   @Prop()
   job: string;
+
+  @Prop({ default: true })
+  notApproved: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
