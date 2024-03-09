@@ -56,7 +56,7 @@ export class User {
   @Prop()
   job: string;
 
-  @Prop({ default: true })
+  @Prop()
   notApproved: boolean;
 }
 

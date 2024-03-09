@@ -23,7 +23,7 @@ export class AuthService {
       const user = await this.userModel.findOne({ email: userData.email });
       const ok = await bcrypt.compare(userData.password, user.password);
       if (!user || !ok) throw new Error();
-      if (user.notApproved) {
+      if (user.notApproved === true) {
         return { user: { email: user.email, notApproved: true } }
       }
       return await this.generateToken(user);
@@ -35,7 +35,7 @@ export class AuthService {
   async register(user: UserRegisterDto) {
     user.password = await bcrypt.hash(user.password, 10);
     try {
-      await this.userModel.create(user);
+      await this.userModel.create({...user, notApproved: true});
       this.mailingService.sendCode(user.email);
       return { user: { email: user.email, notApproved: true } };
     } catch (err) {
@@ -57,10 +57,10 @@ export class AuthService {
 
   async approveUser(email: string, code: number) {
     if (this.mailingService.validateCode(email, code)) {
-      const user = await this.userModel
-        .findOneAndUpdate({ email }, { $unset: { notApproved: 1 } });
+      const user = await this.userModel.findOne({ email });
       if (!user) throw new Error();
-      delete user['_doc']['notApproved'];
+      user.notApproved = undefined;
+      await user.save()
       return this.generateToken(user);
     }
     throw new Error();
