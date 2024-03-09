@@ -617,6 +617,7 @@ response = requests.get(url, { headers });
   "_id": "65e5cd41f9206d7ec12594",
   "name": "ali",
   "email": "ali@gg.ez",
+  "password": "hashedPassword",
   "role": "vendor",
   "address": {
     "gov": "65e36f850475bb457ced99a9",
