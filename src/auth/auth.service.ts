@@ -1,4 +1,5 @@
-import { ForbiddenException, HttpException, Injectable } from '@nestjs/common';
+import { IsStrongPassword } from 'class-validator';
+import { ForbiddenException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -9,6 +10,7 @@ import { UserLoginDto } from './dtos/userLogin.dto';
 import { MailingService } from 'src/shared/mailer/mailing.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { ResetPassDto } from './dtos/resetPass.dto';
 
 @Injectable()
 export class AuthService {
@@ -35,7 +37,7 @@ export class AuthService {
   async register(user: UserRegisterDto) {
     user.password = await bcrypt.hash(user.password, 10);
     try {
-      await this.userModel.create({...user, notApproved: true});
+      await this.userModel.create({ ...user, notApproved: true });
       this.mailingService.sendCode(user.email);
       return { user: { email: user.email, notApproved: true } };
     } catch (err) {
@@ -62,6 +64,27 @@ export class AuthService {
       user.notApproved = undefined;
       await user.save()
       return this.generateToken(user);
+    }
+    throw new Error();
+  }
+
+  async sendConfirmation(email: string, type: string = '') {
+    const types = {
+      password: 'Password reset code',
+      email: 'Your email confirmation code'
+    }
+    const user = await this.userModel.findOne({ email });
+    if (!user) throw new NotFoundException();
+    this.mailingService.sendCode(email, types[type]);
+  }
+
+  async resetPassword(data: ResetPassDto) {
+    if (this.mailingService.validateCode(data.email, data.code)) {
+      const user = await this.userModel.findOne({ email: data.email });
+      if (!user || !user.email) throw new Error();
+      user.password = await bcrypt.hash(data.password, 10);
+      user.save();
+      return this.login(data);
     }
     throw new Error();
   }
