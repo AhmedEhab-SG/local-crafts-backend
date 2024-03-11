@@ -1,8 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, model } from 'mongoose';
+import { Model } from 'mongoose';
 import { Order } from 'src/mongo/schemas/orders.schema';
-import { CreateOrderDto } from './dtos/createOrder.dto';
 import { UpdateOrderDto } from './dtos/updateOrder.dto';
 import { Service } from 'src/mongo/schemas/service.schema';
 import { Product } from 'src/mongo/schemas/product.schema';
@@ -19,14 +18,20 @@ export class OrdersService {
     return await this.orderModel.find(options)
       .populate([
         { path: 'customer', select: 'name' },
-        { path: 'service', select: 'name' },
-        { path: 'product', select: 'name' },
         { path: 'vendor', select: 'name' },
-      ])
+        { path: 'service', select: '-vendor -approved -__v' },
+        { path: 'product', select: '-vendor -approved -__v' },
+      ]);
   }
 
   async getOne(id: string): Promise<Order> {
-    const order = await this.orderModel.findById(id);
+    const order = await this.orderModel.findById(id)
+      .populate([
+        { path: 'customer', select: 'name' },
+        { path: 'vendor', select: 'name' },
+        { path: 'service', select: '-vendor -approved -__v' },
+        { path: 'product', select: '-vendor -approved -__v' },
+      ]);
     if (!order) {
       throw new NotFoundException();
     } else {
