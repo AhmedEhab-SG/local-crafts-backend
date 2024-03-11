@@ -62,6 +62,7 @@ export class ProductsService {
       vendor: {
         id: user_id,
         name: vendor.name,
+        photo: vendor.photo,
         gov: vendor.address.gov,
         city: vendor.address.city,
       },

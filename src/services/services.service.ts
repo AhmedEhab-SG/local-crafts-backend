@@ -57,17 +57,18 @@ export class ServicesService {
     user_id: string,
     vendor: User,
   ): Promise<Service> {
-    const newservice = await this.servicesModel.create({
+    const newService = await this.servicesModel.create({
       ...service,
       vendor: {
         id: user_id,
         name: vendor.name,
+        photo: vendor.photo,
         gov: vendor.address.gov,
         city: vendor.address.city,
       },
     });
 
-    return newservice;
+    return newService;
   }
 
   async update(
