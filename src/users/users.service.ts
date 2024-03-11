@@ -14,7 +14,7 @@ import { PaginateUtils } from 'src/shared/utils/paginate.utils';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<User>) { }
 
   async find(page: number, limit: number): Promise<PaginatedDto<User>> {
     const users = await this.userModel
@@ -38,7 +38,18 @@ export class UsersService {
   }
 
   async findById(_id: string): Promise<User> {
-    return await this.userModel.findOne({ _id }, { password: 0 }).exec();
+    return await this.userModel.findOne({ _id }, { password: 0 })
+      .populate([
+        {
+          path: 'address.city',
+          select: 'name',
+        },
+        {
+          path: 'address.gov',
+          select: 'name',
+        }
+      ])
+      .exec();
   }
 
   async update(
