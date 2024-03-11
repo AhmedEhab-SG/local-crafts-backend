@@ -40,11 +40,12 @@ export class OrdersService {
   }
 
   async create(orderData: Order): Promise<Order> {
-    // check that the data is there in the db
     const model = orderData.service ? this.serviceModel : this.productModel;
     const target = await model.findById(orderData.service || orderData.product);
     if (!target?.vendor?.id) throw new NotFoundException();
     orderData.vendor = target.vendor.id;
+    target.totalOrders++;
+    target.save();
     return await this.orderModel.create(orderData);
   }
 
@@ -59,5 +60,15 @@ export class OrdersService {
     } else {
       return order;
     }
+  }
+
+
+
+  async search(q: string) {
+    const data = {
+      services: await this.serviceModel.find({ $text: { $search: q } }),
+      products: await this.productModel.find({ $text: { $search: q } })
+    }
+    return data
   }
 }
