@@ -13,10 +13,16 @@ export class OrdersService {
     @InjectModel(Service.name) private serviceModel: Model<Service>,
     @InjectModel(Product.name) private productModel: Model<Product>,
     @InjectModel(Order.name) private orderModel: Model<Order>,
-  ) {}
+  ) { }
 
   async getAll(options = {}): Promise<Order[]> {
-    return await this.orderModel.find(options);
+    return await this.orderModel.find(options)
+      .populate([
+        { path: 'customer', select: 'name' },
+        { path: 'service', select: 'name' },
+        { path: 'product', select: 'name' },
+        { path: 'vendor', select: 'name' },
+      ])
   }
 
   async getOne(id: string): Promise<Order> {
