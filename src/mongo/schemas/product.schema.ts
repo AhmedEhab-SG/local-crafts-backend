@@ -35,6 +35,7 @@ export class Product {
         type: String,
       },
       name: String,
+      photo: String,
       gov: {
         ref: 'Governorate',
         type: String,
