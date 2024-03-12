@@ -35,6 +35,7 @@ export class Product {
         type: String,
       },
       name: String,
+      photo: String,
       gov: {
         ref: 'Governorate',
         type: String,
@@ -46,7 +47,13 @@ export class Product {
     },
     required: true,
   })
-  vendor: { id: string; name: string; gov: string; city: string };
+  vendor: {
+    id: string;
+    name: string;
+    photo: string;
+    gov: string;
+    city: string;
+  };
 
   @Prop({ default: 0 })
   totalOrders: number;
