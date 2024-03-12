@@ -62,6 +62,7 @@ export class ProductsController {
     @Request() request: { user_id: string },
   ): Promise<Product> {
     const vendor = await this.usersService.findById(request.user_id);
+    console.log(vendor);
     return await this.productsService.create(product, request.user_id, vendor);
   }
 
