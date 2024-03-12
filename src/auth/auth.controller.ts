@@ -1,4 +1,5 @@
-import { Body, Controller, Get, NotAcceptableException, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, NotAcceptableException, Post, Query, UseGuards } from '@nestjs/common';
+import { Throttle, ThrottlerGuard } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import { UserRegisterDto } from './dtos/userRegister.dto';
 import { UserLoginDto } from './dtos/userLogin.dto';
@@ -33,6 +34,8 @@ export class AuthController {
   }
 
   @Get('code')
+  @UseGuards(ThrottlerGuard)
+  @Throttle({ default: { ttl: 30000, limit: 1 } })
   async sendCodeToEmail(
     @Query('email') email: string,
     @Query('type') type: string
