@@ -1,8 +1,10 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
+  ImATeapotException,
   Param,
   Post,
   Query,
@@ -68,5 +70,17 @@ export class OrdersController {
     if (req.role === 'admin') delete options[req.user_role];
 
     return this.orderService.delete(id, options);
+  }
+
+
+
+
+  @Get('search')
+  @Roles(['admin', 'vendor', 'customer'])
+  getItemsByKeywork(
+    @Query('q') q: string
+  ) {
+    if (!q) throw new ImATeapotException('What are you looking for!');
+    return this.orderService.search(q);
   }
 }

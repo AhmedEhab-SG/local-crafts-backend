@@ -58,6 +58,9 @@ export class User {
 
   @Prop()
   notApproved: boolean;
+
+  @Prop({ type: Date, default: Date.now, required: true })
+  createdAt: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

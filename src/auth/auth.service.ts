@@ -17,7 +17,7 @@ export class AuthService {
     private readonly mailingService: MailingService,
     @InjectModel(User.name) private userModel: Model<User>,
     private jwtService: JwtService,
-  ) { }
+  ) {}
 
   async login(userData: UserLoginDto) {
     try {
@@ -40,7 +40,6 @@ export class AuthService {
       this.mailingService.sendCode(user.email);
       return { user: { email: user.email, notApproved: true } };
     } catch (err) {
-      console.log(err);
       throw new ForbiddenException('User already exists!');
     }
   }

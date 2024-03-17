@@ -9,13 +9,12 @@ export class MailingService {
   async sendCode(email: string, subject: string  = undefined) {
     const code = Math.floor(15000 + Math.random() * 80000);
     this.currentMails[email] = code;
-    const info = await this.mailService.sendMail({
+    await this.mailService.sendMail({
       from: process.env.MAIL_SENDER,
       to: email,
       subject: subject || 'Welcome to Local Crafts marketplace',
       text: 'To confirm your email, please use the following code: ' + code,
     })
-    console.log(info);
   }
 
   validateCode(email: string, code: number) {
