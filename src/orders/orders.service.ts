@@ -65,16 +65,16 @@ export class OrdersService {
 
 
   async search(q: string) {
-    const opt: QueryOptions = { $text: { $search: q } }
-    // const opt: QueryOptions = {
-    //   $search: {
-    //     text: {
-    //       query: q,
-    //       path: ['name', 'description'],
-    //       fuzzy: { maxEdits: 2 }
-    //     }
-    //   }
-    // }
+    // const opt: QueryOptions = { $text: { $search: q } }
+    const opt: QueryOptions = {
+      $search: {
+        text: {
+          query: q,
+          path: ['name', 'description'],
+          fuzzy: { maxEdits: 2 }
+        }
+      }
+    }
     const data = {
       services: await this.serviceModel.find(opt),
       products: await this.productModel.find(opt)

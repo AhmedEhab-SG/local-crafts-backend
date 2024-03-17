@@ -73,7 +73,7 @@ export class OrdersController {
 
 
 
-  @Get('search')
+  @Get('search/exact')
   @Roles(['admin', 'vendor', 'customer'])
   getItemsByKeywork(
     @Query('q') q: string

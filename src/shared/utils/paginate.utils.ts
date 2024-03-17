@@ -13,8 +13,8 @@ export class PaginateUtils {
 
   convert<T>(product: HydratedDocument<T>): T {
     const json = product.toObject({ versionKey: false });
-    const id = json._id;
+    const id = json._id; // id must be converted to _id which is breaking changes
     delete json._id;
-    return { id: String(id), ...json } as T;
+    return { ...json, id: String(id) } as T;
   }
 }
