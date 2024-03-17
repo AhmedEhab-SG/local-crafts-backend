@@ -18,7 +18,7 @@ export class UsersService {
 
   async find(page: number, limit: number): Promise<PaginatedDto<User>> {
     const users = await this.userModel
-      .find()
+      .find({}, { password: 0 })
       .limit(limit)
       .skip(limit * (page - 1))
       .exec();
