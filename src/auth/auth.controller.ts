@@ -5,6 +5,7 @@ import { UserRegisterDto } from './dtos/userRegister.dto';
 import { UserLoginDto } from './dtos/userLogin.dto';
 import { EmailCodeDto } from '../shared/dtos/emailCode.dto';
 import { ResetPassDto } from './dtos/resetPass.dto';
+import { SendCodeDto } from './dtos/sendCode.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -37,8 +38,7 @@ export class AuthController {
   @UseGuards(ThrottlerGuard)
   @Throttle({ default: { ttl: 30000, limit: 1 } })
   async sendCodeToEmail(
-    @Query('email') email: string,
-    @Query('type') type: string
+    @Query() { email, type }: SendCodeDto,
   ) {
     return await this.authService.sendConfirmation(email, type);
   }

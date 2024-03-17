@@ -1,4 +1,3 @@
-import { IsStrongPassword } from 'class-validator';
 import { ForbiddenException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -75,7 +74,7 @@ export class AuthService {
     }
     const user = await this.userModel.findOne({ email });
     if (!user) throw new NotFoundException();
-    this.mailingService.sendCode(email, types[type]);
+    this.mailingService.sendCode(email, types[type || 'email']);
   }
 
   async resetPassword(data: ResetPassDto) {
