@@ -33,6 +33,36 @@ headers = {
 response = requests.get(url, { headers });
 ```
 
+#### Important! .env file
+
+in order to run the backend server successfully you have to provide some
+environment variables, see the `.env.example` file, copy it to a `.env` file,
+then update the variables in the `.env` file.
+
+- `PORT`: 3000, the port number you want the server to listen to.
+- `DB_URI`: "mongodb://localhost:27017/workers", the URL + name of the database to use.
+- `JWT_SECRET`: "just random string", important to enable the authentication.
+- `JWT_EXPIRE`: "3h", the time you want to give to `access_token` before it expires.
+
+to have the mailing service working you need to specify this variables in your `.env` file see the provided `.env.example` file.
+- `MAIL_HOST`: SMTP server like "smtp.gmail.com" or "smtp.ethereal.email" for testing
+- `MAIL_HOST_PORT`: the port to the mail service in the smtp server, usually 587
+- `MAIL_USER` and `MAIL_PASS`: username to authenticate with the `MAIL_HOST`
+- `MAIL_SENDER`: "Workers \<noreply@workers.com\>" or whatever email the company will have
+> read [this](https://ethereal.email/) to know how to set up these variables for testing
+> you can generate a user and password automatically and use it
+> for example, this one is generated when I wrote the documentation
+> to see all the mail login with the user below [here](https://ethereal.email/messages/)
+> > **note**: the [ethereal](https://ethereal.email/) smtp server is for testing, the messages are only [here](https://ethereal.email/messages/), for production use other smtp service
+> ```
+> MAIL_HOST="smtp.ethereal.email"
+> MAIL_HOST_PORT=587
+> MAIL_USER="keaton.mueller@ethereal.email"
+> MAIL_PASS="MZrC9udzDD4E8xJppA"
+> MAIL_SENDER="Workers <noreply@workers.com>"
+> ```
+
+
 ## API Endpoints
 
 <details>
@@ -54,8 +84,8 @@ response = requests.get(url, { headers });
 > - address.city\* for vendor: string, the object Id of the city
 > - address.street: string, min length 3 max 100
 
+Request body example:
 ```json
-// request body example
 {
   "name": "ali",
   "email": "ali@gmail.com",
@@ -72,23 +102,92 @@ response = requests.get(url, { headers });
   }
 }
 ```
+Response body if the user is regestered:
+```json
+{
+  "user": {
+    "email": "the user email",
+    "notApproved": true
+  }
+}
+```
+> after adding the user successfully to the database, the server will send a confirmation code to the user's email
+> the response body, user must go to the /auth/confirm route to complete the registration.
 
 #### POST /auth/login
 
 > request an access_token
 
+Request Body:
 ```json
-// request body example
 {
   "email": "ali@gmail.com",
   "password": "1234abCd!"
 }
 ```
-
+Resposne Body for status 200, and the user has confirmed their email
 ```json
-// response body example
 {
+  "user": "{ object with user informations }"
   "access_token": "hfpashfuiwndlkfawlkejfoialwef.woiejfoijasoiejflwkejfajwoiefj.aoweijfoaiwjfioawjefoijasdlkfjawoiefj23oijodjfa09wjef3489rpjwefoijw"
+}
+```
+Response Body for status 200, but the user has not confirmed their email
+```json
+{
+  "user": {
+    "email": "the user email",
+    "notApproved": true
+  }
+}
+```
+> if the user is `notApproved` this means they have to confirm via email code, or resend the code, and confirm again.
+
+
+#### POST /auth/confirm
+> to confirm a `notApproved` user
+> body schema: 
+> > email: the email of the user
+> > code: number, the code sent to his email
+```json
+{
+  "email": "user@mail.com",
+  "code": 12345,
+}
+```
+> response is the same as login for approved users
+```json
+{
+  "user": {...},
+  "access_token": "some strange long string",
+}
+```
+
+#### GET /auth/code?email=user@mail.com&type=email
+> to get a confirmation code in case of forgot password, and email confirmation
+> you have to specify the user email to send the code to, and the type of the code ("email", "password")
+> if you want to resent a code then the type is "email" and if you forgot the password the type is "password"
+
+> response statuses 
+> - 200: email is sent
+> - 404: user is not registered
+> - 429: the rate of requests is very high
+
+> [!CAUTION]
+> you must wait 30 seconds before calling this endpoint again
+
+#### POST /auth/reset-password
+> to set a new password for the user
+> to must call the `/auth/code?type=password&email=aaa@bbb.ccc ` to get a code
+> body schema: 
+> > email: the email of the user
+> > code: number, the code sent to his email
+> > code: the new password to be set
+```json
+{
+  "email": "user@mail.com",
+  "code": 12345,
+  "password": "Mu$t 8e $trong!"
 }
 ```
 
