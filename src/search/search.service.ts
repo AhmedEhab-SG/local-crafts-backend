@@ -28,9 +28,10 @@ export class SearchService {
 
     const allCollectionsMapped = Object.entries(allCollections).map(
       ([collectionName, collectionArr]) => {
-        const mappedValue = (collectionArr as Array<any>)
+        const mappedValue = (collectionArr as any[])
           .map((item) => {
             for (const key in item) {
+              if (key === '_id') continue; // skip the id
               if (item[key] && typeof item[key] === 'string') {
                 if (item[key].toLowerCase().includes(q.toLowerCase())) {
                   return item;
@@ -43,7 +44,6 @@ export class SearchService {
         return { [collectionName]: mappedValue };
       },
     );
-
-    return allCollectionsMapped;
+    return Object.assign({}, ...allCollectionsMapped); // remvoe the array and merge the objects for as request frontend
   }
 }
