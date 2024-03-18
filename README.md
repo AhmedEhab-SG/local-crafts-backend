@@ -198,9 +198,11 @@ Response Body for status 200, but the user has not confirmed their email
 <details>
  <summary><b>Products</b></summary>
 
-#### GET /products?page=1&limit=10
+#### GET /products?page=1&limit=10&category=نجارة
 
 > query and it takes page and limit default is 1 and 20 respectively
+
+> category query is optional, if you want to filter by category (main or sub)
 
 #### return:
 

@@ -34,8 +34,9 @@ export class ServicesController {
   async getServicesPaginate(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number,
+    @Query('category') category: string,
   ): Promise<PaginatedDto<Service>> {
-    return await this.servicesService.find(page, limit);
+    return await this.servicesService.find(page, limit, category);
   }
 
   @Get('user/:_id')

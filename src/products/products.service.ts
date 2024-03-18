@@ -12,11 +12,17 @@ import { PaginateUtils } from 'src/shared/utils/paginate.utils';
 export class ProductsService {
   constructor(
     @InjectModel(Product.name) private productsModel: Model<Product>,
-  ) {}
+  ) { }
 
-  async find(page: number, limit: number): Promise<PaginatedDto<Product>> {
+  async find(page: number, limit: number, category?: string): Promise<PaginatedDto<Product>> {
+    const options = category? {
+      $or: [
+        { 'category.main': category },
+        { 'category.sub': category }
+      ]
+    } : {};
     const products = await this.productsModel
-      .find()
+      .find(options)
       .limit(limit)
       .skip(limit * (page - 1))
       .exec();

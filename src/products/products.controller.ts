@@ -35,8 +35,9 @@ export class ProductsController {
   async getProductsPaginate(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
     @Query('limit', new DefaultValuePipe(20), ParseIntPipe) limit: number,
+    @Query('category') category: string,
   ): Promise<PaginatedDto<Product>> {
-    return await this.productsService.find(page, limit);
+    return await this.productsService.find(page, limit, category);
   }
 
   @Get('user/:_id')
