@@ -56,6 +56,9 @@ export class User {
   @Prop()
   job: string;
 
+  @Prop()
+  notApproved: boolean;
+
   @Prop({ type: Date, default: Date.now, required: true })
   createdAt: Date;
 }
