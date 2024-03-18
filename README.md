@@ -948,86 +948,82 @@ response body on success
 #### return:
 
 ```json
-[
-  {
-    "products": [
-      {
-        "_id": "65ea40b19f38b1956072af85",
-        "name": "testAp",
-        "price": 250,
-        "description": "test test",
-        "photos": [
-          "https://i.imgur.com/1o3KcN6.png",
-          "https://i.imgur.com/1o3KcN6.png",
-          "https://i.imgur.com/1o3KcN6.png"
-        ],
-        "category": {
-          "main": "نجاره",
-          "sub": "خشب"
-        },
-        "vendor": {
-          "id": "65e5f706e9c9ebb9d820e575",
-          "name": "test",
-          "gov": "65e36f850475bb457ced99a9",
-          "city": "65e371f2617ef1dd3b697ec2"
-        },
-        "totalOrders": 0,
-        "avgRating": 0,
-        "approved": false,
-        "createdAt": "2024-03-07T22:33:21.468Z",
-        "__v": 0
-      }
-    ]
-  },
-  {
-    "services": [
-      {
-        "_id": "65ea42079ec515665816ccda",
+{
+  "products": [
+    {
+      "_id": "65ea40b19f38b1956072af85",
+      "name": "testAp",
+      "price": 250,
+      "description": "test test",
+      "photos": [
+        "https://i.imgur.com/1o3KcN6.png",
+        "https://i.imgur.com/1o3KcN6.png",
+        "https://i.imgur.com/1o3KcN6.png"
+      ],
+      "category": {
+        "main": "نجاره",
+        "sub": "خشب"
+      },
+      "vendor": {
+        "id": "65e5f706e9c9ebb9d820e575",
         "name": "test",
-        "price": 250,
-        "description": "test test",
-        "photos": [
-          "https://i.imgur.com/1o3KcN6.png",
-          "https://i.imgur.com/1o3KcN6.png",
-          "https://i.imgur.com/1o3KcN6.png"
-        ],
-        "category": {
-          "main": "نجاره",
-          "sub": "خشب"
-        },
-        "vendor": {
-          "id": "65e5f706e9c9ebb9d820e575",
-          "name": "test",
-          "gov": "65e36f850475bb457ced99a9",
-          "city": "65e371f2617ef1dd3b697ec2"
-        },
-        "totalOrders": 0,
-        "avgRating": 0,
-        "approved": false,
-        "createdAt": "2024-03-07T22:39:03.539Z",
-        "__v": 0
-      }
-    ]
-  },
-  {
-    "users": [
-      {
-        "_id": "65e62ca5b00ec58e08d2360d",
+        "gov": "65e36f850475bb457ced99a9",
+        "city": "65e371f2617ef1dd3b697ec2"
+      },
+      "totalOrders": 0,
+      "avgRating": 0,
+      "approved": false,
+      "createdAt": "2024-03-07T22:33:21.468Z",
+      "__v": 0
+    }
+  ],
+
+  "services": [
+    {
+      "_id": "65ea42079ec515665816ccda",
+      "name": "test",
+      "price": 250,
+      "description": "test test",
+      "photos": [
+        "https://i.imgur.com/1o3KcN6.png",
+        "https://i.imgur.com/1o3KcN6.png",
+        "https://i.imgur.com/1o3KcN6.png"
+      ],
+      "category": {
+        "main": "نجاره",
+        "sub": "خشب"
+      },
+      "vendor": {
+        "id": "65e5f706e9c9ebb9d820e575",
         "name": "test",
-        "email": "test2@gmail.com",
-        "role": "vendor",
-        "address": {
-          "gov": "65e36f850475bb457ced99a9",
-          "city": "65e371f2617ef1dd3b697ec2"
-        },
-        "photo": "https/gg.ex",
-        "description": "علي علوكا",
-        "__v": 0,
-        "createdAt": "2024-03-17T22:07:02.640Z"
-      }
-    ]
-  }
-]
+        "gov": "65e36f850475bb457ced99a9",
+        "city": "65e371f2617ef1dd3b697ec2"
+      },
+      "totalOrders": 0,
+      "avgRating": 0,
+      "approved": false,
+      "createdAt": "2024-03-07T22:39:03.539Z",
+      "__v": 0
+    }
+  ],
+
+  "users": [
+    {
+      "_id": "65e62ca5b00ec58e08d2360d",
+      "name": "test",
+      "email": "test2@gmail.com",
+      "role": "vendor",
+      "address": {
+        "gov": "65e36f850475bb457ced99a9",
+        "city": "65e371f2617ef1dd3b697ec2"
+      },
+      "photo": "https/gg.ex",
+      "description": "علي علوكا",
+      "__v": 0,
+      "createdAt": "2024-03-17T22:07:02.640Z"
+    }
+  ]
+}
 ```
 
 </details>
