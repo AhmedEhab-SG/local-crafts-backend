@@ -11,14 +11,14 @@ export class SearchController {
     return await this.serachService.search(q);
   }
 
-  @Get('popular')
-  async getPopularItems(@Query('limit') limit = 6): Promise<any> {
-    return await this.serachService.popularItems(limit);
-  }
-
-  @Get('search/exact')
+  @Get('exact')
   serachWithExactText(@Query('q') q: string) {
     if (!q) throw new ImATeapotException('What are you looking for!');
     return this.serachService.searchExact(q);
+  }
+
+  @Get('popular')
+  async getPopularItems(@Query('limit') limit = 6): Promise<any> {
+    return await this.serachService.popularItems(limit);
   }
 }

@@ -70,9 +70,9 @@ export class SearchService {
     if (!limit || limit < 1) limit = 6;
     return {
       services: await this.serviceModel.find()
-        .sort({ createdAt: -1 }).limit(limit),
+        .sort({ totalOrders: -1 }).limit(limit),
       products: await this.productModel.find()
-        .sort({ createdAt: -1 }).limit(limit)
+        .sort({ totalOrders: -1 }).limit(limit)
     }
   }
 }
