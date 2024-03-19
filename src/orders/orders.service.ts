@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, QueryOptions } from 'mongoose';
+import { Model } from 'mongoose';
 import { Order } from 'src/mongo/schemas/orders.schema';
 import { UpdateOrderDto } from './dtos/updateOrder.dto';
 import { Service } from 'src/mongo/schemas/service.schema';
@@ -65,25 +65,5 @@ export class OrdersService {
     } else {
       return order;
     }
-  }
-
-
-
-  async search(q: string) {
-    // const opt: QueryOptions = { $text: { $search: q } }
-    const opt: QueryOptions = {
-      $search: {
-        text: {
-          query: q,
-          path: ['name', 'description'],
-          fuzzy: { maxEdits: 2 }
-        }
-      }
-    }
-    const data = {
-      services: await this.serviceModel.find(opt),
-      products: await this.productModel.find(opt)
-    }
-    return data
   }
 }
