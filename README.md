@@ -45,23 +45,25 @@ then update the variables in the `.env` file.
 - `JWT_EXPIRE`: "3h", the time you want to give to `access_token` before it expires.
 
 to have the mailing service working you need to specify this variables in your `.env` file see the provided `.env.example` file.
+
 - `MAIL_HOST`: SMTP server like "smtp.gmail.com" or "smtp.ethereal.email" for testing
 - `MAIL_HOST_PORT`: the port to the mail service in the smtp server, usually 587
 - `MAIL_USER` and `MAIL_PASS`: username to authenticate with the `MAIL_HOST`
 - `MAIL_SENDER`: "Workers \<noreply@workers.com\>" or whatever email the company will have
-> read [this](https://ethereal.email/) to know how to set up these variables for testing
-> you can generate a user and password automatically and use it
-> for example, this one is generated when I wrote the documentation
-> to see all the mail login with the user below [here](https://ethereal.email/messages/)
-> > **note**: the [ethereal](https://ethereal.email/) smtp server is for testing, the messages are only [here](https://ethereal.email/messages/), for production use other smtp service
-> ```
-> MAIL_HOST="smtp.ethereal.email"
-> MAIL_HOST_PORT=587
-> MAIL_USER="keaton.mueller@ethereal.email"
-> MAIL_PASS="MZrC9udzDD4E8xJppA"
-> MAIL_SENDER="Workers <noreply@workers.com>"
-> ```
-
+  > read [this](https://ethereal.email/) to know how to set up these variables for testing
+  > you can generate a user and password automatically and use it
+  > for example, this one is generated when I wrote the documentation
+  > to see all the mail login with the user below [here](https://ethereal.email/messages/)
+  >
+  > > **note**: the [ethereal](https://ethereal.email/) smtp server is for testing, the messages are only [here](https://ethereal.email/messages/), for production use other smtp service
+  >
+  > ```
+  > MAIL_HOST="smtp.ethereal.email"
+  > MAIL_HOST_PORT=587
+  > MAIL_USER="keaton.mueller@ethereal.email"
+  > MAIL_PASS="MZrC9udzDD4E8xJppA"
+  > MAIL_SENDER="Workers <noreply@workers.com>"
+  > ```
 
 ## API Endpoints
 
@@ -85,6 +87,7 @@ to have the mailing service working you need to specify this variables in your `
 > - address.street: string, min length 3 max 100
 
 Request body example:
+
 ```json
 {
   "name": "ali",
@@ -102,7 +105,9 @@ Request body example:
   }
 }
 ```
+
 Response body if the user is regestered:
+
 ```json
 {
   "user": {
@@ -111,6 +116,7 @@ Response body if the user is regestered:
   }
 }
 ```
+
 > after adding the user successfully to the database, the server will send a confirmation code to the user's email
 > the response body, user must go to the /auth/confirm route to complete the registration.
 
@@ -119,20 +125,25 @@ Response body if the user is regestered:
 > request an access_token
 
 Request Body:
+
 ```json
 {
   "email": "ali@gmail.com",
   "password": "1234abCd!"
 }
 ```
+
 Resposne Body for status 200, and the user has confirmed their email
+
 ```json
 {
   "user": "{ object with user informations }"
   "access_token": "hfpashfuiwndlkfawlkejfoialwef.woiejfoijasoiejflwkejfajwoiefj.aoweijfoaiwjfioawjefoijasdlkfjawoiefj23oijodjfa09wjef3489rpjwefoijw"
 }
 ```
+
 Response Body for status 200, but the user has not confirmed their email
+
 ```json
 {
   "user": {
@@ -141,21 +152,26 @@ Response Body for status 200, but the user has not confirmed their email
   }
 }
 ```
+
 > if the user is `notApproved` this means they have to confirm via email code, or resend the code, and confirm again.
 
-
 #### POST /auth/confirm
+
 > to confirm a `notApproved` user
-> body schema: 
+> body schema:
+>
 > > email: the email of the user
 > > code: number, the code sent to his email
+
 ```json
 {
   "email": "user@mail.com",
-  "code": 12345,
+  "code": 12345
 }
 ```
+
 > response is the same as login for approved users
+
 ```json
 {
   "user": {...},
@@ -164,11 +180,13 @@ Response Body for status 200, but the user has not confirmed their email
 ```
 
 #### GET /auth/code?email=user@mail.com&type=email
+
 > to get a confirmation code in case of forgot password, and email confirmation
 > you have to specify the user email to send the code to, and the type of the code ("email", "password")
 > if you want to resent a code then the type is "email" and if you forgot the password the type is "password"
 
-> response statuses 
+> response statuses
+>
 > - 200: email is sent
 > - 404: user is not registered
 > - 429: the rate of requests is very high
@@ -177,12 +195,15 @@ Response Body for status 200, but the user has not confirmed their email
 > you must wait 30 seconds before calling this endpoint again
 
 #### POST /auth/reset-password
+
 > to set a new password for the user
 > to must call the `/auth/code?type=password&email=aaa@bbb.ccc ` to get a code
-> body schema: 
+> body schema:
+>
 > > email: the email of the user
 > > code: number, the code sent to his email
 > > code: the new password to be set
+
 ```json
 {
   "email": "user@mail.com",
@@ -1191,7 +1212,7 @@ response body on success
       "createdAt": "2024-03-07T22:39:03.539Z",
       "__v": 0
     }
-  ],
+  ]
 }
 ```
 
@@ -1200,6 +1221,7 @@ response body on success
 > get the most ordered products and services
 
 > limit is optional but its default is 6
+
 #### return:
 
 ```json
@@ -1209,6 +1231,93 @@ response body on success
 }
 ```
 
+</details>
+
+---
+
+<details>
+ <summary><b>Feedback</b></summary>
+ 
+#### GET /services/:serviceId/feedback
+
+> get all feedback for this order
+
+> [!CAUTION]
+> NOT Requires Token
+
+#### return:
+
+```json
+[
+  {
+    "_id": "65faecd39be1895d3b73b899",
+    "customer": "65fac9bfd94342415c47c0d0",
+    "vendor": "65e5f706e9c9ebb9d820e575",
+    "service": "65ea42079ec515665816cce0",
+    "comment": "good service with low cost",
+    "rating": 5,
+    "createdAt": "2024-03-20T14:04:03.201Z",
+    "__v": 0
+  },
+  {
+    "_id": "65faf7989be1895d3b73b8a0",
+    "customer": "65fac9bfd94342415c47c0d0",
+    "vendor": "65e5f706e9c9ebb9d820e575",
+    "service": "65ea42079ec515665816cce0",
+    "comment": "bad service with low cost",
+    "rating": 2,
+    "createdAt": "2024-03-20T14:50:00.122Z",
+    "__v": 0
+  }
+]
+```
+
+#### GET /products/:productId/feedback
+
+> get all feedback for this product
+
+#### DELETE /services/:serviceId/feedback
+
+> only customer or admin can delete feedback to service
+> [!CAUTION]
+> Requires Token
+
+#### DELETE /products/:productId/feedback
+
+> only customer or admin can delete feedback to product
+> [!CAUTION]
+> Requires Token
+
+#### POST /services/:serviceId/feedback
+
+> only customer can add feedback to service
+> [!CAUTION]
+> Requires Token
+
+#### body:
+
+```json
+{
+  "comment": "bad service with low cost",
+  "rating": 2
+}
+```
+
+#### POST /products/:productId/feedback
+
+> only customer can add feedback to product
+> [!CAUTION]
+> Requires Token
+
+> [!CAUTION]
+> Body Schema is object with comment (string) and rate( 0 <= number <= 5) inside
+
+```js
+{
+  comment: '500 > length > 5',
+  rate: 0 to 5
+}
+```
 
 </details>
 
