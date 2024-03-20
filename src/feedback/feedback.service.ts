@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Feedback } from 'src/mongo/schemas/feedback.schema';
-import { Order } from 'src/mongo/schemas/orders.schema';
+// import { Order } from 'src/mongo/schemas/orders.schema';
 import { Product } from 'src/mongo/schemas/product.schema';
 import { Service } from 'src/mongo/schemas/service.schema';
 
@@ -11,7 +11,7 @@ export class FeedbackService {
   constructor(
     @InjectModel(Service.name) private serviceModel: Model<Service>,
     @InjectModel(Product.name) private productModel: Model<Product>,
-    @InjectModel(Order.name) private orderModel: Model<Order>,
+    // @InjectModel(Order.name) private orderModel: Model<Order>,
     @InjectModel(Feedback.name) private feedbackModel: Model<Feedback>,
   ) {}
 
@@ -24,14 +24,11 @@ export class FeedbackService {
     const target = await model.findOne({
       _id: feedbackData.service || feedbackData.product,
     });
-
     if (!target?.vendor?.id) throw new NotFoundException();
     feedbackData.vendor = target.vendor.id;
     target.totalReviews++;
-
     target.avgRating += feedbackData.rating / target.totalReviews;
     target.save();
-
     return await this.feedbackModel.create(feedbackData);
   }
 

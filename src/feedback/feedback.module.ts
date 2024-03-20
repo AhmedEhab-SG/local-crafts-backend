@@ -8,7 +8,6 @@ import { FeedbackModel } from 'src/mongo/models/feedback.model';
 
 @Module({
   imports: [OrderModel, ServiceModel, ProductModel, FeedbackModel],
-
   controllers: [FeedbackController],
   providers: [FeedbackService],
 })
