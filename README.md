@@ -1310,12 +1310,12 @@ response body on success
 > Requires Token
 
 > [!CAUTION]
-> Body Schema is object with comment (string) and rate( 0 <= number <= 5) inside
+> Body Schema is object with comment (string) <br/> rating( 0 <= number <= 5) inside
 
 ```js
 {
-  comment: '500 > length > 5',
-  rate: 0 to 5
+  comment: 'your message',
+  rating: 0 to 5
 }
 ```
 
