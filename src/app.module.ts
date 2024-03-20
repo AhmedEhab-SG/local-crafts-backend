@@ -10,6 +10,7 @@ import { OrdersModule } from './orders/orders.module';
 import { MailingModule } from './shared/mailer/mailing.module';
 import { ThrottlingModule } from './shared/throttler/throttling.module';
 import { SearchModule } from './search/search.module';
+import { FeedbackModule } from './feedback/feedback.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { SearchModule } from './search/search.module';
     SearchModule,
     MailingModule,
     ThrottlingModule,
+    FeedbackModule,
   ],
 })
 export class AppModule {}

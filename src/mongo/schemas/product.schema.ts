@@ -66,6 +66,9 @@ export class Product {
 
   @Prop({ default: false })
   approved: boolean;
+
+  @Prop({ type: Number, default: 0 })
+  totalReviews: number;
 }
 
 export const ProductsSchema = SchemaFactory.createForClass(Product);
