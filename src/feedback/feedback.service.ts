@@ -27,7 +27,12 @@ export class FeedbackService {
     if (!target?.vendor?.id) throw new NotFoundException();
     feedbackData.vendor = target.vendor.id;
     target.totalReviews++;
-    target.avgRating += feedbackData.rating / target.totalReviews;
+    try {
+      target.avgRating += feedbackData.rating / target.totalReviews;
+      if (target.avgRating > 5) throw new Error();
+    } catch {
+      target.avgRating = 5;
+    }
     target.save();
     return await this.feedbackModel.create(feedbackData);
   }

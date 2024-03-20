@@ -9,7 +9,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { FeedbackService } from './feedback.service';
-// import { RolesGuard } from 'src/shared/guards/roles.guard';
+import { RolesGuard } from 'src/shared/guards/roles.guard';
 import { AuthGuard } from 'src/shared/guards/auth.guard';
 import { Roles } from 'src/shared/decorators/roles.decorator';
 import { ParseIsInPipe } from 'src/shared/pipes/parseIsIn.pipe';
@@ -33,9 +33,9 @@ export class FeedbackController {
     return this.feedbackService.find(options);
   }
 
-  @UseGuards(AuthGuard)
-  @Post('/:section/:id/feedback')
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(['customer'])
+  @Post('/:section/:id/feedback')
   async create(
     @Request() req: any,
     @Param('section', ParseValidSection) s: string,
@@ -44,11 +44,12 @@ export class FeedbackController {
   ): Promise<Feedback> {
     feedbackData['customer'] = req.user_id;
     feedbackData[s.slice(0, -1)] = id;
-    feedbackData['vendor'] = '65ea411757dd02aace220e54';
     return this.feedbackService.create(feedbackData as Feedback);
   }
-  @Delete('/:section/:id/feedback')
+
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(['admin', 'customer'])
+  @Delete('/:section/:id/feedback')
   async remove(
     @Param('id', ParseObjectIdPipe) id: string,
     @Param('section', ParseValidSection) s: string,
